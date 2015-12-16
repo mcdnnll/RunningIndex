@@ -1,0 +1,14 @@
+// Project config variables and common paths
+{
+    "dir": {
+        "client": "src/client/",
+        "dist": "build/dist/",
+        "server": "build/server/"
+    },
+    "endpoints": {
+        "static": "http://localhost:9000/static"
+    },
+    "ports": {
+      "web": 9000
+    }
+}

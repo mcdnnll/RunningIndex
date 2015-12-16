@@ -1,0 +1,11 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title!= title
+    link(rel='stylesheet', href=locals.staticpath+"/styles.css")
+  body
+    #app!= content
+    script(src=locals.staticpath+"/styles.bundle.js" defer) 
+    script(src=locals.staticpath+"/common.bundle.js" defer) 
+    script(src!=bundle defer)
