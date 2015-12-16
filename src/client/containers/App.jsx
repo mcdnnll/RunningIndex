@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
-import CounterContainer from './CounterContainer';
+import EntryContainer from './EntryContainer';
 
 /**
- * Prop validation 
+ * Prop validation
  */
 const propTypes = {
   children: PropTypes.oneOfType([
@@ -22,8 +22,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>Counter Example</h1>
-        <CounterContainer />
+        <h1>Running Index</h1>
+        <EntryContainer />
       </div>
     );
   }
