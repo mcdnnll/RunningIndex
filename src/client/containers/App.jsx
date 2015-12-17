@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import EntryContainer from './EntryContainer';
+import Nav from '../components/nav/nav.react';
 
 /**
  * Prop validation
@@ -20,8 +21,10 @@ class App extends React.Component {
   }
 
   render() {
+
     return (
       <div>
+        <Nav />
         <h1>Running Index</h1>
         <EntryContainer />
       </div>

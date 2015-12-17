@@ -3,14 +3,20 @@ var webpack = require('webpack');
 var config = require('config');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
+var autoprefixer = require('autoprefixer');
+var precss = require('precss');
+
+var rootDir = path.join(__dirname, '../');
+
 module.exports = {
-  debug: true, 
+  debug: true,
   cache: true,
-  context: path.join(__dirname, '../'),
+  context: rootDir,
   entry: {
-    app: path.join(__dirname, '../') + config.dir.client + 'index.js',
-    common: ['react', 'redux'],
+    app: [rootDir + config.dir.client + 'index'],
+    styles: [rootDir + config.dir.styles + 'ri'],
   },
+
   output: {
     path: config.dir.dist,
     publicPath: config.endpoints.static + '/',
@@ -18,7 +24,7 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx', '.css'],
     modulesDirectories: ['node_modules'],
   },
 
@@ -27,15 +33,15 @@ module.exports = {
       // Core loaders
       { test: /\.jsx?$/, exclude: /node_modules/, loaders: ['react-hot', 'babel-loader'] },
       { test: /\.html$/, loader: 'file?name=[name].[ext]' },
-      { test: /\.css$/, loaders: ['style-loader', 'css-loader'] },
+      { test: /\.css$/, loaders: ["style-loader", "css-loader", "postcss-loader"] },
     ],
   },
 
+  postcss: function() {
+    return [autoprefixer, precss];
+  },
+
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['common', 'styles'],
-      minChunks: Infinity,
-    }),
     new ExtractTextPlugin('[name].css'),
     new webpack.ProvidePlugin({
       $: 'jquery',

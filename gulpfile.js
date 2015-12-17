@@ -5,6 +5,7 @@ var mocha  = require('gulp-mocha');
 var watch = require('gulp-watch');
 var gulpif = require('gulp-if');
 var webpack = require('webpack');
+var runSequence = require('run-sequence');
 
 require('babel-core/register');
 
@@ -27,9 +28,11 @@ gulp.task('fe-build', function(done) {
     });
 });
 
-gulp.task('build-all', ['clean', 'be-build', 'fe-build']);
+gulp.task('build-all', function() {
+    runSequence('clean', 'be-build', 'fe-build');
+});
 
-gulp.task('server', function() {
+gulp.task('serve', function() {
   var cmd = new run.Command('node build/server/server.js', {verbosity:3});
   cmd.exec();
 });
@@ -43,5 +46,5 @@ gulp.task('client-tests', function() {
   return gulp
     .src(paths.clientTests)
     .pipe(mocha({reporter: 'spec'}))
-    .on('error', console.log); 
+    .on('error', console.log);
 });

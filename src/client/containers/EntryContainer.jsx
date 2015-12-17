@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 // import {increment, decrement, incrementAsync, incrementIfOdd} from '../actions';
-import {addEntry} from '../actions';
+import {addEntry, addEntryAsync} from '../actions';
 import AddEntry from '../Components/AddEntry';
 import EntryList from '../Components/EntryList';
 
@@ -16,15 +16,19 @@ class EntryContainer extends React.Component {
     this.handleNewEntry = this.handleNewEntry.bind(this);
   }
 
-  handleNewEntry(runningIndex, location) {
-    this.props.dispatch(addEntry(runningIndex, location));
+  handleNewEntry(eventType, runningIndex, location) {
+    if (eventType === 'sync') {
+      this.props.dispatch(addEntry(runningIndex, location));
+    } else {
+      this.props.dispatch(addEntryAsync(runningIndex, location));
+    }
   }
 
   render() {
     return (
       <div>
-        <AddEntry onAddClick={this.handleNewEntry}/>
-        <EntryList entries={this.props.entries}/>
+        <AddEntry onAddClick={this.handleNewEntry} />
+        <EntryList entries={this.props.entries} />
       </div>
     );
   }

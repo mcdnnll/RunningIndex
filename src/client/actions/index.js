@@ -14,3 +14,11 @@ export function addEntry(runningIndex, location) {
   };
 }
 
+export function addEntryAsync(runningIndex, location) {
+  return dispatch => {
+    setTimeout(() => {
+      dispatch(addEntry(runningIndex, location));
+    }, 2000);
+  };
+}
+

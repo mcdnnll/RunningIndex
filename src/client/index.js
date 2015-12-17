@@ -3,11 +3,9 @@ import ReactDOM from 'react-dom';
 import Router from 'react-router';
 import {Provider} from 'react-redux';
 import routes from './routes';
-import {createStore} from 'redux';
-import reducer from './reducers';
+import configuredStore from './store';
 
-const store = createStore(reducer);
-
+const store = configuredStore();
 // Connect redux store to app
 ReactDOM.render(
   <Provider store={store}>

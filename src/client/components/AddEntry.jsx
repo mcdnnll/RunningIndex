@@ -10,10 +10,11 @@ class AddEntry extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick() {
+  handleClick(eventType) {
     const runningIndex = this.refs.indexInput.value;
     const location = this.refs.locationInput.value;
-    this.props.onAddClick(runningIndex, location);
+
+    this.props.onAddClick(eventType, runningIndex, location);
 
     this.refs.indexInput.value = '';
     this.refs.locationInput.value = '';
@@ -25,7 +26,8 @@ class AddEntry extends React.Component {
         <p>
           <input type="text" ref="indexInput" />
           <input type="text" ref="locationInput" />
-          <button onClick={this.handleClick}>Add</button>
+          <button onClick={this.handleClick.bind(this, 'sync')}>Add</button>
+          <button onClick={this.handleClick.bind(this, 'async')}>Add Async</button>
         </p>
       </div>
     );
