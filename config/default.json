@@ -1,15 +1,22 @@
 // Project config variables and common paths
 {
-    "dir": {
-        "client": "build/client/",
-        "dist": "build/dist/",
-        "server": "build/server/",
-        "styles": "build/client/styles/"
-    },
-    "endpoints": {
-        "static": "http://localhost:9000/static"
-    },
-    "ports": {
-      "web": 9000
-    }
+  "dir": {
+    "client": "build/client/",
+    "dist": "build/dist/",
+    "server": "build/server/",
+    "styles": "build/client/styles/",
+
+    // Src paths
+    "s_client": "src/client/",
+    "s_styles": "src/client/styles/"
+  },
+  "endpoints": {
+    "static": "http://localhost:9000/static",
+    "static_dev": "http://localhost:9001/static",
+    "webpack": "http://localhost:9001"
+  },
+  "ports": {
+    "web": 9000,
+    "webpack": 9001
+  }
 }

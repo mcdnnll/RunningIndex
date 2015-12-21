@@ -7,13 +7,14 @@
     "webpack-dev": "webpack-dev-server --config ./config/webpack.config.js --inline --hot --progress --no-colors",
     "client": "webpack --config ./config/webpack.config.js --progress --no-colors",
     "build": "babel src/server -d build/server && babel src/client -d build/client",
-    "server": "babel-node ./build/server/server"
+    "start": "babel-node ./build/server/server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "config": "^1.17.1",
+    "cors": "^2.7.1",
     "express": "^4.13.3",
     "history": "^1.13.1",
     "immutable": "^3.7.5",

@@ -13,8 +13,9 @@ module.exports = {
   cache: true,
   context: rootDir,
   entry: {
-    app: [rootDir + config.dir.client + 'index'],
-    styles: [rootDir + config.dir.styles + 'ri'],
+    app: [rootDir + config.dir.s_client + 'index'],
+    styles: [rootDir + config.dir.s_styles + 'ri'],
+    devServer: 'webpack-dev-server/client?http://0.0.0.0:9001',
   },
 
   output: {
@@ -43,9 +44,24 @@ module.exports = {
 
   plugins: [
     new ExtractTextPlugin('[name].css'),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
     }),
   ],
+
+  devServer: {
+    port: config.ports.webpack,
+    stats: {
+      noColors: true
+    },
+    headers: {
+      "Access-Control-Allow-Origin": config.dir.web,
+      "Access-Control-Allow-Credentials": true
+    },
+    proxy: {
+      '*': config.dir.web
+    },
+  },
 };

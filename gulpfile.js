@@ -4,8 +4,12 @@ var run = require('gulp-run');
 var mocha  = require('gulp-mocha');
 var watch = require('gulp-watch');
 var gulpif = require('gulp-if');
+var gutil = require("gulp-util");
 var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
 var runSequence = require('run-sequence');
+var config = require('config');
+var webpackConfig = require('./config/webpack.config.js');
 
 require('babel-core/register');
 
@@ -32,8 +36,42 @@ gulp.task('build-all', function() {
     runSequence('clean', 'be-build', 'fe-build');
 });
 
+gulp.task('dev', ['serve-hot'], function() {
+
+  // Override webpack path to fix dev-server path resolution (needs '/')
+  webpackConfig.output.path = '/' + config.dir.dist;
+
+  // Start a webpack-dev-server
+  new WebpackDevServer(webpack(webpackConfig), {
+
+    // Public path required to properly proxy the bundle requests back to the express server
+    // Must mirror the normal webpack public path
+    publicPath: webpackConfig.output.publicPath,
+    stats: {
+      noColors: true
+    },
+    headers: {
+      "Access-Control-Allow-Origin": "http://localhost:9001",
+      "Access-Control-Allow-Credentials": true
+    },
+    proxy: {
+      '*': 'http://localhost:9000'
+    }
+  }
+    ).listen(config.ports.webpack, "localhost", function(err) {
+      if(err) throw new gutil.PluginError("webpack-dev-server", err);
+      gutil.log("[webpack-dev-server]", "http://localhost:" + config.ports.webpack + "/webpack-dev-server/");
+  });
+
+});
+
 gulp.task('serve', function() {
   var cmd = new run.Command('node build/server/server.js', {verbosity:3});
+  cmd.exec();
+});
+
+gulp.task('serve-hot', function() {
+  var cmd = new run.Command('NODE_ENV=development node build/server/server.js', {verbosity:3});
   cmd.exec();
 });
 
