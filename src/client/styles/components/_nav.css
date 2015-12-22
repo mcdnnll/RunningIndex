@@ -1,0 +1,44 @@
+
+/* Block */
+.nav {
+  background: #FFFFFF;
+}
+
+.nav__row {
+  width: 90%;
+  font-size: 0;
+}
+
+.nav__list {
+  display: inline-block;
+  vertical-align: bottom;
+  font-size: 1rem;
+}
+
+.nav__item {
+  color: $primary-colour;
+  display: block;
+  font-weight: 400;
+  padding: 20px;
+  text-decoration: none;
+  transition: .2s;
+}
+
+.nav__item:hover {
+  background: $primary-colour;
+  color: $secondary-colour;
+}
+
+
+
+.nav__title {
+  color: $primary-colour;
+  /*display: inline-block;*/
+  display: block;
+  float: left;
+  font-size: 1.7rem;
+  font-weight: 500;
+  padding: 0px 30px 17px 30px;
+  text-decoration: none;
+  transition: .2s;
+}

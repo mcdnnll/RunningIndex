@@ -7,6 +7,10 @@ class Nav extends React.Component {
 
   render() {
 
+    const navTitle = {
+      name: 'RunningIndex', path: '/',
+    };
+
     const navItems = [
       {name: 'Dashboard', path: '/'},
       {name: 'Statistics', path: '/statistics'},
@@ -14,10 +18,17 @@ class Nav extends React.Component {
     ];
 
     return (
-      <nav>
-        <ul>
+      <nav className="nav">
+        <ul className="nav__row">
+          <li className="nav__list">
+            <a className="nav__title"href={navTitle.path}>{navTitle.name}</a>
+          </li>
           {navItems.map((item, i) => {
-            return <li key={i}><a href={item.path}>{item.name}</a></li>;
+            return (
+              <li key={i} className="nav__list">
+                <a className="nav__item" href={item.path}>{item.name}</a>
+              </li>
+            );
           })}
         </ul>
       </nav>

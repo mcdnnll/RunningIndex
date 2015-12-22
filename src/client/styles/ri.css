@@ -1,9 +1,9 @@
 
-/*$app-background: #FBFAF8;*/
-$app-background: #FBFAF8;
-$primary-colour: #D55F5F;
-$secondary-colour: #FFFFFF;
+/* Import core styles */
 
-body {
-  background-color: $app-background;
-}
+@import "./core/variables";
+@import "./core/reset";
+@import "./core/base";
+
+/* Component styles */
+@import "./components/_nav.css";
