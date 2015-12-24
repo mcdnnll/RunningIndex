@@ -1,6 +1,8 @@
 import React, {PropTypes} from 'react';
-import EntryContainer from './EntryContainer';
 import Nav from '../components/nav/nav.react';
+import {Column, Grid} from '../components/core/layout/grid.react';
+
+import EntryContainer from './EntryContainer';
 
 /**
  * Prop validation
@@ -25,8 +27,17 @@ class App extends React.Component {
     return (
       <div>
         <Nav />
-        <h1>Running Index</h1>
-        <EntryContainer />
+        <Grid type="padded">
+          <Column type="col-1-3">
+            <p>Hello</p>
+          </Column>
+          <Column type="col-1-3">
+            <EntryContainer />
+          </Column>
+          <Column type="col-1-3">
+            <p>World</p>
+          </Column>
+        </Grid>
       </div>
     );
   }

@@ -2,10 +2,10 @@
 /* Block */
 .nav {
   background: #FFFFFF;
+  width: 100%;
 }
 
 .nav__row {
-  width: 90%;
   font-size: 0;
 }
 
@@ -29,16 +29,17 @@
   color: $secondary-colour;
 }
 
-
-
 .nav__title {
   color: $primary-colour;
-  /*display: inline-block;*/
   display: block;
   float: left;
   font-size: 1.7rem;
   font-weight: 500;
-  padding: 0px 30px 17px 30px;
+  padding: 13px 20px 16px 20px;
   text-decoration: none;
-  transition: .2s;
+  transition: .1s;
+}
+
+.nav__title:hover {
+  color: $primary-colour-heavy;
 }
