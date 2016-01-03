@@ -1,5 +1,12 @@
-import React, {PropTypes} from 'react';
-import {Grid, Column} from '../core/layout/grid.react';
+import React, { PropTypes } from 'react';
+import { Grid, Column } from '../core/layout/Grid.react';
+
+const propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(React.PropTypes.node),
+    PropTypes.node,
+  ]),
+};
 
 class Nav extends React.Component {
   constructor(props) {
@@ -7,26 +14,17 @@ class Nav extends React.Component {
   }
 
   render() {
-
-    const navTitle = {
-      name: 'RunningIndex', path: '/',
-    };
-
-    const navItems = [
-      {name: 'Dashboard', path: '/'},
-      {name: 'Statistics', path: '/statistics'},
-      {name: 'Manage Entries', path: '/manage'},
-    ];
+    // const {navTitle, navLinks} = this.props;
 
     return (
       <nav className="nav">
         <Grid type="nav">
-            <a className="nav__title" href={navTitle.path}>{navTitle.name}</a>
+            <a className="nav__title" href={this.props.navTitle.path}>{this.props.navTitle.name}</a>
             <ul className="nav__row">
-              {navItems.map((item, i) => {
+              {this.props.navLinks.map((item, i) => {
                 return (
                   <li key={i} className="nav__list">
-                    <a className="nav__item" href={item.path}>{item.name}</a>
+                    <a className="nav__item" onClick={this.props.updateRoute.bind(null, item.path)}>{item.name}</a>
                   </li>
                 );
               })}
@@ -36,5 +34,7 @@ class Nav extends React.Component {
     );
   }
 }
+
+Nav.propTypes = propTypes;
 
 export default Nav;

@@ -1,12 +1,10 @@
-import React, {PropTypes} from 'react';
-import Nav from '../components/nav/nav.react';
-import {Column, Grid} from '../components/core/layout/grid.react';
+import React, { PropTypes } from 'react';
+import Nav from '../components/nav/Nav.react';
+import { Column, Grid } from '../components/core/layout/Grid.react';
+import { connect } from 'react-redux';
+import { pushPath } from 'redux-simple-router';
 
-import EntryContainer from './EntryContainer';
 
-/**
- * Prop validation
- */
 const propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(React.PropTypes.node),
@@ -14,28 +12,37 @@ const propTypes = {
   ]),
 };
 
-/**
- * App Component
- */
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.handleRouteChange = this.handleRouteChange.bind(this);
+  }
+
+  handleRouteChange(nextRoute) {
+    this.props.dispatch(pushPath(nextRoute));
   }
 
   render() {
 
+    const navTitle = {
+      name: 'RunningIndex', path: '/',
+    };
+
+    const navLinks = [
+      {name: 'Dashboard', path: '/'},
+      {name: 'Manage Entries', path: '/manage'},
+    ];
+
     return (
       <div>
-        <Nav />
+        <Nav
+          navTitle={navTitle}
+          navLinks={navLinks}
+          updateRoute={this.handleRouteChange}
+        />
         <Grid type="padded">
-          <Column type="col-1-3">
-            <p>Hello</p>
-          </Column>
-          <Column type="col-1-3">
-            <EntryContainer />
-          </Column>
-          <Column type="col-1-3">
-            <p>World</p>
+          <Column type="col-8-12 push-2-12">
+            {this.props.children}
           </Column>
         </Grid>
       </div>
@@ -45,4 +52,4 @@ class App extends React.Component {
 
 App.propTypes = propTypes;
 
-export default App;
+export default connect(pushPath)(App);

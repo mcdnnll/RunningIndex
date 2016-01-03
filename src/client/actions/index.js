@@ -1,9 +1,5 @@
 import * as types from '../constants/actionTypes';
 
-/**
-* Action creators
-*/
-
 export function addEntry(runningIndex, location) {
   return {
     type: types.ADD_ENTRY,
@@ -22,3 +18,9 @@ export function addEntryAsync(runningIndex, location) {
   };
 }
 
+// export function requestEntries() {
+//   return {
+//     type: types.REQUEST_ENTRIES,
+//     payload:
+//   }
+// }

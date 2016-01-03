@@ -8,3 +8,4 @@
 
 /* Component styles */
 @import "./components/_nav.css";
+@import "./components/_card.css";

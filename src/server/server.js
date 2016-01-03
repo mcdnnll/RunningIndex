@@ -1,11 +1,15 @@
-
 const config = require('config');
 const express = require('express');
 const cors = require('cors');
+const logger = require('./utils/logger');
+
+const models = require('./models');
+const web = require('./routes/web');
+const api = require('./routes/api');
 
 const app = express();
 
-// Use jade templates
+// View engine init
 app.set('views', config.dir.server + 'views');
 app.set('view engine', 'jade');
 
@@ -18,28 +22,36 @@ app.use(cors({
 // Server static content
 app.use('/static', express.static('build/dist'));
 
-
 // Switch bundle paths when using webpack-dev-server
-// to allow proxying of the requests back to the server
-let staticpath;
-
+// to allow proxying of the requests to real backendt
 if (process.env.NODE_ENV === 'development') {
-  staticpath = config.endpoints.static_dev;
+  app.set('staticPath', config.endpoints.static_dev);
 } else {
-  staticpath = config.endpoints.static;
+  app.set('staticPath', config.endpoints.static);
 }
 
-app.get('*', (req, res) => {
-
-  // Return rendered view to the client
-  res.render('index', {
-    title: 'RunningIndex',
-    // content: iso.render(),
-    bundle: staticpath + '/app.bundle.js',
-    staticpath: staticpath,
-  });
+// Init logging middleware
+app.use((req, res, next) => {
+  logger.log('info', 'HTTP %s %s', req.method, req.url);
+  next();
 });
 
-app.listen(config.ports.web, 'localhost', () => {
-  console.log('Web Server running @ localhost:' + config.ports.web);
+// Web routes
+app.get('/', web.index);
+
+// API routes
+app.get('/api/entries', api.getEntries);
+app.post('/api/entries', api.createEntry);
+app.post('/api/upload', api.uploadEntries);
+
+// Instantiate connection to db and start server
+models.sequelize.sync().then((res, err) => {
+
+  if (err) {
+    logger.error(err);
+  }
+
+  app.listen(config.ports.web, 'localhost', () => {
+    logger.log('info', 'Web Server running @ localhost:' + config.ports.web);
+  });
 });

@@ -1,22 +1,33 @@
 // Project config variables and common paths
 {
   "dir": {
+    "root": "",
     "client": "build/client/",
     "dist": "build/dist/",
     "server": "build/server/",
     "styles": "build/client/styles/",
-
+    "scripts": "scripts/",
     // Src paths
     "s_client": "src/client/",
-    "s_styles": "src/client/styles/"
+    "s_styles": "src/client/styles/",
+    "utils": "build/server/utils"
   },
   "endpoints": {
     "static": "http://localhost:9000/static",
     "static_dev": "http://localhost:9001/static",
-    "webpack": "http://localhost:9001"
+    "webpack": "http://localhos:9001"
   },
   "ports": {
     "web": 9000,
     "webpack": 9001
+  },
+  "db": {
+    "development": {
+      "username": "MBP",
+      "password": "",
+      "database": "ri",
+      "host": "localhost",
+      "dialect": "postgres"
+    }
   }
 }
