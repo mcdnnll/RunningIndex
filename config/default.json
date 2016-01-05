@@ -15,6 +15,8 @@
   "endpoints": {
     "static": "http://localhost:9000/static",
     "static_dev": "http://localhost:9001/static",
+    "web": "http://localhost:9000",
+    "api": "http://localhost:9000/api",
     "webpack": "http://localhos:9001"
   },
   "ports": {

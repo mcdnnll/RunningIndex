@@ -43,6 +43,7 @@ app.get('/', web.index);
 app.get('/api/entries', api.getEntries);
 app.post('/api/entries', api.createEntry);
 app.post('/api/upload', api.uploadEntries);
+app.get('/api/dashboard', api.loadDashboard);
 
 // Instantiate connection to db and start server
 models.sequelize.sync().then((res, err) => {

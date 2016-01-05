@@ -30,4 +30,4 @@ const logger = new winston.Logger({
 
 winston.addColors(customColours);
 
-export default logger;
+module.exports = logger;
