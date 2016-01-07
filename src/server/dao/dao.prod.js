@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const models = require('../models');
 const sql = require('../utils/preparedSql');
 const getTime = require('../utils/getTime');
@@ -42,13 +43,15 @@ exports.getBestRunData = () => {
     Promise.all([q1, q2, q3, q4, q5, q6]).then((dbData, dbErr) => {
       if (dbErr) reject(dbErr);
 
+      const bestRunData = _.flatten(dbData);
+
       const bestRunSummary = {
-        thisWeek: dbData[0],
-        lastWeek: dbData[1],
-        thisMonth: dbData[2],
-        lastMonth: dbData[3],
-        thisYear: dbData[4],
-        lastYear: dbData[5],
+        thisWeek: bestRunData[0],
+        lastWeek: bestRunData[1],
+        thisMonth: bestRunData[2],
+        lastMonth: bestRunData[3],
+        thisYear: bestRunData[4],
+        lastYear: bestRunData[5],
       };
 
       resolve(bestRunSummary);

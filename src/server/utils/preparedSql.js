@@ -10,67 +10,67 @@ ORDER BY yr, mnth;
 `;
 
 exports.getBestRunThisYear = `
-SELECT "date", max("runningIndex") as bestrun
+SELECT "date", max("runningIndex") as bestrunindex
 FROM "Entries"
 WHERE "date"
 BETWEEN date_trunc('year', current_date)
 AND current_date
 GROUP by "date"
-ORDER BY bestrun DESC
+ORDER BY bestrunindex DESC
 LIMIT 1;
 `;
 
 exports.getBestRunLastYear = `
-SELECT "date", max("runningIndex") as bestrun
+SELECT "date", max("runningIndex") as bestrunindex
 FROM "Entries"
 WHERE "date"
 BETWEEN date_trunc('year', current_date - interval '1 year')
 AND date_trunc('year', current_date)
 GROUP by "date"
-ORDER BY bestrun DESC
+ORDER BY bestrunindex DESC
 LIMIT 1;
 `;
 
 exports.getBestRunThisMonth = `
-SELECT "date", max("runningIndex") as bestrun
+SELECT "date", max("runningIndex") as bestrunindex
 FROM "Entries"
 WHERE "date"
 BETWEEN date_trunc('month', current_date)
 AND current_date
 GROUP by "date"
-ORDER BY bestrun, "date" DESC
+ORDER BY bestrunindex, "date" DESC
 LIMIT 1;
 `;
 
 exports.getBestRunLastMonth = `
-SELECT "date", max("runningIndex") as bestrun
+SELECT "date", max("runningIndex") as bestrunindex
 FROM "Entries"
 WHERE "date"
 BETWEEN date_trunc('month', current_date - interval '1 month')
 AND date_trunc('month', current_date)
 GROUP by "date"
-ORDER BY bestrun, "date" DESC
+ORDER BY bestrunindex, "date" DESC
 LIMIT 1;
 `;
 
 exports.getBestRunThisWeek = `
-SELECT "date", max("runningIndex") as bestrun
+SELECT "date", max("runningIndex") as bestrunindex
 FROM "Entries"
 WHERE "date"
 BETWEEN date_trunc('week', current_date)
 AND current_date
 GROUP by "date"
-ORDER BY bestrun, "date" DESC
+ORDER BY bestrunindex, "date" DESC
 LIMIT 1;
 `;
 
 exports.getBestRunLastWeek = `
-SELECT "date", max("runningIndex") as bestrun
+SELECT "date", max("runningIndex") as bestrunindex
 FROM "Entries"
 WHERE "date"
 BETWEEN date_trunc('week', current_date - interval '1 week')
 AND date_trunc('week', current_date)
 GROUP by "date"
-ORDER BY bestrun, "date" DESC
+ORDER BY bestrunindex, "date" DESC
 LIMIT 1;
 `;
