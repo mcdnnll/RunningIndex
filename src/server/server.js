@@ -6,6 +6,7 @@ const logger = require('./utils/logger');
 const models = require('./models');
 const web = require('./routes/web');
 const api = require('./routes/api');
+const errorHandler = require('./utils/errorHandler');
 
 const app = express();
 
@@ -44,6 +45,9 @@ app.get('/api/entries', api.getEntries);
 app.post('/api/entries', api.createEntry);
 app.post('/api/upload', api.uploadEntries);
 app.get('/api/dashboard', api.loadDashboard);
+
+// Error handling
+app.use(errorHandler);
 
 // Instantiate connection to db and start server
 models.sequelize.sync().then((res, err) => {

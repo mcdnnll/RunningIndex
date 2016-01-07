@@ -1,3 +1,4 @@
+const _ = require('lodash');
 
 /**
  * Function to aggregate run count statistics for main dashboard
@@ -5,7 +6,7 @@
  * @param: {Array} runCountData
  * @return {Object} runCount - data to be diplayed on the dashboard's run count card
  */
-exports.runCountSummary = (t, runCountData) => {
+exports.calcRunCount = (t, runCountData) => {
 
   return new Promise((resolve, reject) => {
 
@@ -54,17 +55,7 @@ exports.runCountSummary = (t, runCountData) => {
         runCount.thisWeek += parseInt(obj.rcount, 10);
       }
     }
+
     resolve(runCount);
-  });
-};
-
-
-exports.bestRunSummary = (time, data) => {
-
-  return new Promise((resolve, reject) => {
-
-
-
-
   });
 };
