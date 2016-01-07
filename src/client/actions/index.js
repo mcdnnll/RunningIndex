@@ -1,4 +1,5 @@
 import * as types from '../constants/actionTypes';
+import request from 'superagent';
 
 export function addEntry(runningIndex, location) {
   return {
@@ -18,9 +19,37 @@ export function addEntryAsync(runningIndex, location) {
   };
 }
 
-// export function requestEntries() {
-//   return {
-//     type: types.REQUEST_ENTRIES,
-//     payload:
-//   }
-// }
+
+export function dashboardLoading() {
+
+  return {
+    type: types.DASHBOARD_LOADING,
+    payload: {},
+  };
+}
+
+
+export function dashboardLoaded(runCountData, bestRunData) {
+  return {
+    type: types.DASHBOARD_LOADED,
+    payload: {
+      runCount: runCountData,
+      bestRun: bestRunData,
+    },
+  };
+}
+
+export function getDashboardData() {
+  return dispatch => {
+    dispatch(dashboardLoading());
+
+    request
+      .get('/api/dashboard')
+      .end((err, res) => {
+        console.log(res.body);
+
+        dispatch(dashboardLoaded(res.body.runCount, res.body.bestRun));
+      });
+  };
+
+}
