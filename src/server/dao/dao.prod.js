@@ -15,7 +15,7 @@ exports.getRunCountData = () => {
   const timePeriods = getTime();
 
   // Query DB for latest running count aggregates
-  db.query(sql.getRunCountData, {model: db.Entries}).spread((results) => results)
+  return db.query(sql.getRunCountData, {model: db.Entries}).spread((results) => results)
 
     // Calculate run count totals relevant to current time period
     .then((dbData) => prd.calcRunCount(timePeriods, dbData))
@@ -39,23 +39,24 @@ exports.getBestRunData = () => {
   const q5 = db.query(sql.getBestRunThisYear, {model: db.Entries}).spread((results) => results);
   const q6 = db.query(sql.getBestRunLastYear, {model: db.Entries}).spread((results) => results);
 
-  return Promise.all([q1, q2, q3, q4, q5, q6]).then((dbData) => {
+  return Promise.all([q1, q2, q3, q4, q5, q6])
+    .then((dbData) => {
 
-    // Handle case where no run data is available for a certain time period
-    // Allows for consistency on the client
-    const defaultResult = {value: 0, date: 0};
+      // Handle case where no run data is available for a certain time period
+      // Allows for consistency on the client
+      const defaultResult = {value: 0, date: 0};
 
-    const bestRunSummary = {
-      thisWeek: dbData[0][0] || defaultResult,
-      lastWeek: dbData[1][0] || defaultResult,
-      thisMonth: dbData[2][0] || defaultResult,
-      lastMonth: dbData[3][0] || defaultResult,
-      thisYear: dbData[4][0] || defaultResult,
-      lastYear: dbData[5][0] || defaultResult,
-    };
+      const bestRunSummary = {
+        thisWeek: dbData[0][0] || defaultResult,
+        lastWeek: dbData[1][0] || defaultResult,
+        thisMonth: dbData[2][0] || defaultResult,
+        lastMonth: dbData[3][0] || defaultResult,
+        thisYear: dbData[4][0] || defaultResult,
+        lastYear: dbData[5][0] || defaultResult,
+      };
 
-    logger.log('info', 'getBestRunData(): Returning');
-    return bestRunSummary;
-  })
-  .catch((e) => e);
+      logger.log('info', 'getBestRunData(): Returning');
+      return bestRunSummary;
+    })
+    .catch((e) => e);
 };

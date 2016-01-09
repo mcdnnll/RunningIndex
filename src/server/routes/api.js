@@ -41,6 +41,7 @@ exports.loadDashboard = (req, res, next) => {
 
   Promise.all([runCountData, bestRunData])
     .then((runData) => {
+      console.log(runData);
       res.status(http.OK).send({runCount: runData[0], bestRun: runData[1]});
     })
     .catch((e) => next(e));
