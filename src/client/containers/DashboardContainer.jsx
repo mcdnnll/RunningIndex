@@ -1,22 +1,51 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { getDashboardData } from '../actions';
+
+import RunSummary from '../components/RunSummary';
 
 const propTypes = {};
-
-const defaultProps = {};
 
 class DashboardContainer extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  render() {
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(getDashboardData());
+  }
+
+  renderSpinner() {
+    return <div>Spinner</div>;
+  }
+
+  renderDashboard() {
     return (
-      <div>Dashboard</div>
+      <div>
+        <RunSummary title="Run Count" runData={this.props.dashboard.runCount} />
+        <RunSummary title="Best Run" runData={this.props.dashboard.bestRun} />
+      </div>
+    );
+  }
+
+  render() {
+    const pageIsLoading = this.props.dashboard.isLoading;
+
+    return (
+      <div>
+        {pageIsLoading ? this.renderSpinner() : this.renderDashboard() }
+      </div>
     );
   }
 }
 
-DashboardContainer.propTypes = propTypes;
-DashboardContainer.defaultProps = defaultProps;
+const mapStateToProps = (state) => {
+  return {
+    dashboard: state.dashboard,
+  };
+};
 
-export default DashboardContainer;
+DashboardContainer.propTypes = propTypes;
+
+export default connect(mapStateToProps)(DashboardContainer);
