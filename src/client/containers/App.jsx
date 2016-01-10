@@ -4,8 +4,6 @@ import { Column, Grid } from '../components/core/layout/Grid.react';
 import { connect } from 'react-redux';
 import { pushPath } from 'redux-simple-router';
 
-import { getDashboardData } from '../actions';
-
 const propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(React.PropTypes.node),
@@ -18,12 +16,6 @@ class App extends React.Component {
     super(props);
     this.handleRouteChange = this.handleRouteChange.bind(this);
   }
-
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(getDashboardData());
-  }
-
 
   handleRouteChange(nextRoute) {
     this.props.dispatch(pushPath(nextRoute));
@@ -48,7 +40,7 @@ class App extends React.Component {
           updateRoute={this.handleRouteChange}
         />
         <Grid type="padded">
-          <Column type="col-8-12 push-2-12">
+          <Column type="col-10-12 push-1-12">
             {this.props.children}
           </Column>
         </Grid>

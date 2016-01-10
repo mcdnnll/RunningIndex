@@ -27,6 +27,7 @@
 .nav__item:hover {
   background: $primary-colour;
   color: $secondary-colour;
+  cursor: pointer;
 }
 
 .nav__title {

@@ -19,15 +19,19 @@ export function addEntryAsync(runningIndex, location) {
   };
 }
 
-
 export function dashboardLoading() {
-
   return {
     type: types.DASHBOARD_LOADING,
     payload: {},
   };
 }
 
+export function dashboardLoadFailed() {
+  return {
+    type: types.DASHBOARD_LOAD_FAILED,
+    payload: {},
+  };
+}
 
 export function dashboardLoaded(runCountData, bestRunData) {
   return {
@@ -46,10 +50,12 @@ export function getDashboardData() {
     request
       .get('/api/dashboard')
       .end((err, res) => {
-        console.log(res.body);
-
-        dispatch(dashboardLoaded(res.body.runCount, res.body.bestRun));
+        if (err) {
+          dispatch(dashboardLoadFailed());
+        } else {
+          dispatch(dashboardLoaded(res.body.runCount, res.body.bestRun));
+        }
       });
   };
-
 }
+
