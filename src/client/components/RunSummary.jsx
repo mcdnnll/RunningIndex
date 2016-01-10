@@ -1,5 +1,7 @@
 
 import React, {PropTypes} from 'react';
+import moment from 'moment';
+import { Column, Grid } from './core/layout/Grid.react';
 
 const propTypes = {
   runData: PropTypes.object,
@@ -15,7 +17,7 @@ const defaultProps = {
     lastWeek: {value: 0, date: 0},
   },
   dataView: 'MONTH',
-};
+}
 
 class RunSummary extends React.Component {
   constructor(props) {
@@ -28,45 +30,63 @@ class RunSummary extends React.Component {
     this.setState({activeView: nextView});
   }
 
-  renderWeek() {
-    const { thisWeek, lastWeek } = this.props.runData;
-    return (
-      <div>
-        <p>This Week</p>
-        <p>{thisWeek.value}</p>
-        <p>Last Week</p>
-        <p>{lastWeek.value}</p>
-      </div>
-    );
+  // Convert raw UTC date to human-friendly format
+  formatDate(rawDate) {
+    return moment(rawDate).format('dddd Do MMM');
   }
 
-  renderMonth() {
-
-    console.log(this.props)
-
-    const { thisMonth, lastMonth } = this.props.runData;
-
-    console.log(thisMonth, lastMonth);
-
-    return (
-      <div>
-        <p>This Month</p>
-        <p>{thisMonth.value}</p>
-        <p>Last Month</p>
-        <p>{lastMonth.value}</p>
-      </div>
-    );
+  // Add active class to button on selection
+  checkIsActive(viewState) {
+    if (this.state.activeView === viewState) {
+      return 'summary-card__btn--active';
+    }
+    return '';
   }
 
-  renderYear() {
-    const { thisYear, lastYear } = this.props.runData;
+  renderTimePeriod(currentPeriod, lastPeriod) {
+
+    // Retrieve data for current and last time periods
+    const currentPeriodData = this.props.runData[currentPeriod];
+    const lastPeriodData = this.props.runData[lastPeriod];
+
+    let currentPeriodString, lastPeriodString;
+    switch (currentPeriod) {
+      case 'thisYear':
+        currentPeriodString = 'This Year';
+        lastPeriodString = 'Last Year';
+        break;
+      case 'thisMonth':
+        currentPeriodString = 'This Month';
+        lastPeriodString = 'Last Month';
+        break;
+      case 'thisWeek':
+        currentPeriodString = 'This Week';
+        lastPeriodString = 'Last Week';
+        break;
+      default:
+        currentPeriodString = 'This Month';
+        lastPeriodString = 'Last Month';
+    }
+
     return (
-      <div>
-        <p>This Year</p>
-        <p>{thisYear.value}</p>
-        <p>Last Year</p>
-        <p>{lastYear.value}</p>
-      </div>
+        <div className="summary-card__display-group">
+          <div className="summary-card__display">
+            <div>{currentPeriodString}</div>
+            <div className="summary-card__display-value">{currentPeriodData.value}</div>
+            <div className="summary-card__display-date">
+              {currentPeriodData.date ? this.formatDate(currentPeriodData.date) : <div></div>}
+            </div>
+          </div>
+          <div className="summary-card__display">
+            <div>{lastPeriodString}</div>
+            <div className="summary-card__display-value">
+              {lastPeriodData.value}
+            </div>
+            <div className="summary-card__display-date">
+            {lastPeriodData.date ? this.formatDate(lastPeriodData.date) : <div></div>}
+            </div>
+          </div>
+        </div>
     );
   }
 
@@ -77,19 +97,26 @@ class RunSummary extends React.Component {
     const dataView = this.state.activeView;
 
     if (dataView === 'WEEK') {
-      renderActiveView = this.renderWeek();
+      renderActiveView = this.renderTimePeriod('thisWeek', 'lastWeek');
     } else if (dataView === 'MONTH') {
-      renderActiveView = this.renderMonth();
+      renderActiveView = this.renderTimePeriod('thisMonth', 'lastMonth');
     } else if (dataView === 'YEAR') {
-      renderActiveView = this.renderYear();
+      renderActiveView = this.renderTimePeriod('thisYear', 'lastYear');
     }
 
     return (
-      <div>
-        <h5>{title}</h5>
-        <button onClick={this.handleViewChange.bind(this, 'WEEK')}>Week</button>
-        <button onClick={this.handleViewChange.bind(this, 'MONTH')}>Month</button>
-        <button onClick={this.handleViewChange.bind(this, 'YEAR')}>Year</button>
+      <div className="summary-card">
+        <div className="summary-card__header">
+          <div className="summary-card__title">{title}</div>
+        </div>
+        <div className="summary-card__btn-group">
+          <button className={'summary-card__btn summary-card__btn--left ' + this.checkIsActive('WEEK')}
+            onClick={this.handleViewChange.bind(this, 'WEEK')}>Week</button>
+          <button className={'summary-card__btn summary-card__btn--centre ' + this.checkIsActive('MONTH')}
+            onClick={this.handleViewChange.bind(this, 'MONTH')}>Month</button>
+          <button className={'summary-card__btn summary-card__btn--right ' + this.checkIsActive('YEAR')}
+            onClick={this.handleViewChange.bind(this, 'YEAR')}>Year</button>
+        </div>
         {renderActiveView}
       </div>
     );
@@ -100,5 +127,3 @@ RunSummary.defaultProps = defaultProps;
 RunSummary.propTypes = propTypes;
 
 export default RunSummary;
-
-

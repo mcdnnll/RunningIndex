@@ -40,7 +40,7 @@ class App extends React.Component {
           updateRoute={this.handleRouteChange}
         />
         <Grid type="padded">
-          <Column type="col-8-12 push-2-12">
+          <Column type="col-10-12 push-1-12">
             {this.props.children}
           </Column>
         </Grid>
