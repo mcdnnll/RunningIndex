@@ -42,9 +42,9 @@ app.get('/', web.index);
 
 // API routes
 app.get('/api/entries', api.getEntries);
-app.post('/api/entries', api.createEntry);
-app.post('/api/upload', api.uploadEntries);
-app.get('/api/dashboard', api.loadDashboard);
+app.post('/api/entry', api.createEntry);
+app.post('/api/entries', api.uploadEntries);
+app.get('/api/summary', api.getRunSummaries);
 
 // Error handling
 app.use(errorHandler);

@@ -8,7 +8,6 @@ const prd = require('../utils/processRunData');
 exports.getRunCountData = () => {
 
   logger.log('info', 'getRunCountData(): Starting exec');
-
   const db = models.sequelize;
 
   // Get current time info to calculate run data for the relative period
@@ -23,12 +22,14 @@ exports.getRunCountData = () => {
       logger.log('info', 'getRunCountData(): Returning');
       return runCountData;
     })
-    .catch((e) => e);
+    .catch((e) => {
+      throw e;
+    });
 };
 
 exports.getBestRunData = () => {
-  logger.log('info', 'getBestRunData(): Starting exec');
 
+  logger.log('info', 'getBestRunData(): Starting exec');
   const db = models.sequelize;
 
   // TODO: Optimise sql queries
@@ -58,5 +59,37 @@ exports.getBestRunData = () => {
       logger.log('info', 'getBestRunData(): Returning');
       return bestRunSummary;
     })
-    .catch((e) => e);
+    .catch((e) => {
+      throw e;
+    });
+};
+
+exports.getLifetimeTotalData = () => {
+
+  logger.log('info', 'getRunTotalData(): Starting exec');
+  const db = models.sequelize;
+
+  return models.Entry.findAll({
+    attributes: [[db.fn('COUNT', db.col('runningIndex')), 'count']],
+  }).then((dbData) => {
+      logger.log('info', 'getRunTotalData(): Returning');
+      return parseInt(dbData[0].dataValues.count, 10);
+    })
+    .catch((e) => {
+      throw e;
+    });
+};
+
+exports.getAllEntries = () => {
+
+  logger.log('info', 'getAllEntries(): Starting exec');
+
+  return models.Entry.findAll({attributes: ['id', 'date', 'runningIndex', 'location']})
+    .then((dbData) => {
+      logger.log('info', 'getAllEntries(): returning');
+      return dbData;
+    })
+    .catch((e) => {
+      throw e;
+    });
 };
