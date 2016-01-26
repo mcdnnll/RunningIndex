@@ -1,0 +1,22 @@
+
+.total-card {
+  background: $secondary-colour;
+  border: 1px solid $border-colour;
+  border-radius: 5px;
+  height: 100px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.total-card__title {
+  color: $primary-colour;
+  font-size: 1em;
+  font-weight: 400;
+  padding: 15px 15px 10px 15px;
+}
+
+.total-card__display-value {
+  color: $primary-colour;
+  font-size: 3em;
+  font-weight: 400;
+}
