@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import d3 from 'd3';
+import moment from 'moment';
 
 const propTypes = {
   runData: PropTypes.array,
@@ -15,82 +16,81 @@ class RunTotalsGraph extends React.Component {
   }
 
   componentDidMount() {
-    this.renderGraph();
+    const { graphProps, runData} = this.props;
+    this.initGraph(graphProps, runData);
+    this.renderGraph(graphProps, runData);
   }
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate(props) {
+    const { graphProps, runData} = props;
+    this.renderGraph(graphProps, runData);
     return false;
   }
 
-  renderGraph() {
+  initGraph(gp) {
+    const svg = d3.select('svg')
+      .attr('width', gp.width)
+      .attr('height', gp.height);
 
-    const { runData, width, height, x, y } = this.props;
+    const g = svg.append('g')
+      .attr('transform', `translate(${gp.margin.left}, ${gp.margin.top})`);
 
-    // Dimensions for graph container
-    const outerWidth = parseInt(width, 10);
-    const outerHeight = parseInt(height, 10);
-    const margin = {left: 10, top: 10, right: 10, bottom: 10};
+  }
 
-    const xColumn = x;
-    const yColumn = y;
+  renderGraph(gp, data) {
 
     // Dimensions for graph
-    const innerWidth = outerWidth - margin.left - margin.right;
-    const innerHeight = outerHeight - margin.top - margin.bottom;
+    const innerWidth = gp.width - gp.margin.left - gp.margin.right;
+    const innerHeight = gp.height - gp.margin.top - gp.margin.bottom;
+    const dateParser = d3.time.format.iso.parse;
+    const dateFormat = d3.time.format('%Y-%m-%d');
 
-    const svg = d3.select('.runTotalsGraph').append('svg')
-      .attr('width', outerWidth)
-      .attr('height', outerHeight);
-
-    // Create group and convert x & y co-ords to index off of margins
-    const g = svg.append('g')
-      .attr('transform', `translate(${margin.left}, ${margin.top})`);
+    const g = d3.select('g');
 
     const xAxisG = g.append('g')
-      .attr('class', 'x axis')
+      .attr('class', 'x chart-axis')
       .attr('transform', `translate(0, ${innerHeight})`);
 
     const yAxisG = g.append('g')
-      .attr('class', 'y axis');
+      .attr('class', 'y chart-axis');
 
-    const xScale = d3.scale.ordinal().rangeBands([0, innerWidth]);
+    const xScale = d3.scale.ordinal().rangeBands([0, innerWidth], gp.barPadding);
     const yScale = d3.scale.linear().range([innerHeight, 0]);
 
-    const xAxis = d3.svg.axis().scale(xScale).orient('bottom');
+    const xAxis = d3.svg.axis().scale(xScale).orient('bottom').ticks(0);
     const yAxis = d3.svg.axis().scale(yScale).orient('left');
 
-    function renderGraph(data) {
+    // const dateSeries = data.map((d) => d[gp.xColumn];
+    // const dateSeries = data.map((d) => moment(d[gp.xColumn]).format('DD-MM-YY'));
 
-      xScale.domain(data.map((d) => d[xColumn]));
-      yScale.domain([0, d3.max(data, (d) => d[yColumn])]);
+    const dateSeries = data.map((d) => d[gp.xColumn]);
 
-      xAxisG.call(xAxis);
-      yAxisG.call(yAxis);
+    xScale.domain(dateSeries);
+    yScale.domain([0, d3.max(data, (d) => d[gp.yColumn])]);
 
-      const bars = g.selectAll('rect').data(data);
+    xAxisG.call(xAxis);
+    yAxisG.call(yAxis);
 
-      // Generate bars for new data
-      bars.enter().append('rect');
+    const bars = g.selectAll('rect').data(data);
 
-      // Update
-      bars
-        .attr('x', (d) => xScale(d[xColumn]))
-        .attr('y', (d) => yScale(d[yColumn]))
-        .attr('width', xScale.rangeBand())
-        .attr('height', (d) => innerHeight - yScale(d[yColumn]));
+    // Generate bars for new data
+    bars.enter().append('rect');
 
-      bars.exit().remove();
-    }
+    // Update
+    bars
+      .attr('class', 'graph-bar')
+      .attr('x', (d) => xScale(d[gp.xColumn]))
+      .attr('y', (d) => yScale(d[gp.yColumn]))
+      .attr('width', xScale.rangeBand())
+      .attr('height', (d) => innerHeight - yScale(d[gp.yColumn]));
 
-    // // Construct graph
-    renderGraph(runData);
+    bars.exit().remove();
 
   }
 
   render() {
     return (
-      <div className="runTotalsGraph">
-      </div>
+      <svg className="runTotalsGraph"></svg>
     );
   }
 }

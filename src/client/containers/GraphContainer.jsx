@@ -4,7 +4,8 @@ import { fetchGraphData } from '../actions';
 import { Column, Grid } from '../components/core/layout/Grid.react';
 import RunTotalsGraph from '../components/RunTotalsGraph';
 import GraphSelector from '../components/GraphSelector';
-
+import TestGraph from '../components/TestGraph';
+import d3 from 'd3';
 
 const propTypes = {
   graphData: PropTypes.array,
@@ -34,18 +35,35 @@ class GraphContainer extends React.Component {
   renderTotal() {
     const { graphData } = this.props;
 
-    const tempGraph = graphData.slice(graphData.length - 50, graphData.length)
+    const dataset = graphData.map((entry) => {
+      entry.date = d3.time.format.iso.parse(entry.date);
+      return entry;
+    });
+
+
+    const tempGraph = dataset.slice(dataset.length - 100, dataset.length);
+
+    const graphProps = {
+      width: 890,
+      height: 450,
+      xColumn: 'date',
+      yColumn: 'runningIndex',
+      margin: {
+        left: 35,
+        top: 20,
+        right: 20,
+        bottom: 25,
+      },
+      barPadding: 0.1,
+    };
 
     return (
       <RunTotalsGraph
-        // runData={this.props.graphData}
-        runData={tempGraph}
-        width="890"
-        height="450"
-        x="date"
-        y="runningIndex"
+        runData={dataset}
+        // runData={tempGraph}
+        graphProps={graphProps}
       />
-          );
+    );
   }
 
   renderMonthlyAvg() {
@@ -54,13 +72,19 @@ class GraphContainer extends React.Component {
     );
   }
 
+  renderSpinner() {
+    return <div>Spinner</div>;
+  }
+
   render() {
     const view = this.state.activeView;
+    const { graphIsLoading } = this.props;
+
     let renderActiveView;
     if (view === 'MONTHLY_AVG') {
-      renderActiveView = this.renderMonthlyAvg();
+      renderActiveView = (graphIsLoading) ? this.renderSpinner() : this.renderMonthlyAvg();
     } else if (view === 'TOTAL') {
-      renderActiveView = this.renderTotal();
+      renderActiveView = (graphIsLoading) ? this.renderSpinner() : this.renderTotal();
     }
 
     return (
@@ -82,6 +106,7 @@ class GraphContainer extends React.Component {
 const mapStateToProps = (state) => {
   return {
     graphData: state.dashboard.graphData,
+    graphIsLoading: state.dashboard.graphIsLoading,
   };
 };
 

@@ -6,3 +6,22 @@
   margin-top: 10px;
   margin-bottom: 20px;
 }
+
+.graph-axis text {
+  font-size: 0.9em;
+}
+
+.graph-axis path,
+.graph-axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.graph-bar {
+  fill: blue;
+}
+
+.x {
+  font-size: 0.5em;
+}
