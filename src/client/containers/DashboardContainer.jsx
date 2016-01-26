@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getDashboardData } from '../actions';
+import { fetchRunSummaryData } from '../actions';
 import { Column, Grid } from '../components/core/layout/Grid.react';
-import RunSummary from '../components/RunSummary';
+import GraphContainer from './GraphContainer';
+import RunSummaryCard from '../components/RunSummaryCard';
+import RunTotalCard from '../components/RunTotalCard';
 
 const propTypes = {};
 
@@ -13,23 +15,29 @@ class DashboardContainer extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(getDashboardData());
+    dispatch(fetchRunSummaryData());
   }
 
   renderSpinner() {
     return <div>Spinner</div>;
   }
 
-  renderDashboard() {
+  renderSummaryCards() {
     return (
-      <Grid>
-        <Column type="col-4-12">
-          <RunSummary title="Run Count" runData={this.props.dashboard.runCount} />
-        </Column>
-        <Column type="col-4-12">
-          <RunSummary title="Best Running Index" runData={this.props.dashboard.bestRun} />
-        </Column>
-      </Grid>
+      <div>
+        <Grid>
+          <Column type="col-4-12">
+            <RunSummaryCard title="Run Count" runData={this.props.dashboard.runCount} />
+          </Column>
+          <Column type="col-4-12">
+            <RunSummaryCard title="Best Running Index" runData={this.props.dashboard.bestRun} />
+          </Column>
+          <Column type="col-4-12">
+            <RunTotalCard title="Lifetime Run Total" runData={this.props.dashboard.lifetimeTotal} />
+            <RunTotalCard title="Best Monthly RI Avg" runData={this.props.dashboard.lifetimeTotal} />
+          </Column>
+        </Grid>
+      </div>
     );
   }
 
@@ -38,7 +46,8 @@ class DashboardContainer extends React.Component {
 
     return (
       <div>
-        {pageIsLoading ? this.renderSpinner() : this.renderDashboard() }
+        <GraphContainer />
+        {pageIsLoading ? this.renderSpinner() : this.renderSummaryCards() }
       </div>
     );
   }

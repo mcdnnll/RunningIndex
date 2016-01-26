@@ -19,43 +19,82 @@ export function addEntryAsync(runningIndex, location) {
   };
 }
 
-export function dashboardLoading() {
+export function requestRunSummaryData() {
   return {
-    type: types.DASHBOARD_LOADING,
+    type: types.REQUEST_RUN_SUMMARY_DATA,
     payload: {},
   };
 }
 
-export function dashboardLoadFailed() {
+export function requestRunSummaryDataFailed() {
   return {
-    type: types.DASHBOARD_LOAD_FAILED,
+    type: types.REQUEST_RUN_SUMMARY_DATA_FAILED,
     payload: {},
   };
 }
 
-export function dashboardLoaded(runCountData, bestRunData) {
+export function receiveRunSummaryData(runCountData, bestRunData, lifetimeTotal) {
   return {
-    type: types.DASHBOARD_LOADED,
+    type: types.RECEIVE_RUN_SUMMARY_DATA,
     payload: {
       runCount: runCountData,
       bestRun: bestRunData,
+      lifetimeTotal: lifetimeTotal,
     },
   };
 }
 
-export function getDashboardData() {
+export function fetchRunSummaryData() {
   return dispatch => {
-    dispatch(dashboardLoading());
+    dispatch(requestRunSummaryData());
 
     request
-      .get('/api/dashboard')
+      .get('/api/summary')
       .end((err, res) => {
         if (err) {
-          dispatch(dashboardLoadFailed());
+          dispatch(requestRunSummaryDataFailed());
         } else {
-          dispatch(dashboardLoaded(res.body.runCount, res.body.bestRun));
+          dispatch(receiveRunSummaryData(res.body.runCount, res.body.bestRun, res.body.lifetimeTotal));
         }
       });
   };
 }
 
+export function requestGraphData() {
+  return {
+    type: types.REQUEST_GRAPH_DATA,
+    payload: {},
+  };
+}
+
+export function requestGraphDataFailed() {
+  return {
+    type: types.REQUEST_GRAPH_DATA_FAILED,
+    payload: {},
+  };
+}
+
+export function receiveGraphData(dataset) {
+  return {
+    type: types.RECEIVE_GRAPH_DATA,
+    payload: {
+      graphData: dataset,
+    },
+  };
+}
+
+export function fetchGraphData() {
+  return dispatch => {
+    dispatch(requestGraphData());
+
+    request
+      .get('/api/entries')
+      .end((err, res) => {
+        if (err) {
+          dispatch(requestGraphDataFailed());
+        } else {
+          dispatch(receiveGraphData(res.body));
+        }
+      });
+  };
+}
