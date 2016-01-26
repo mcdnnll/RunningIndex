@@ -1,0 +1,35 @@
+
+.selector__btn-group  {
+  text-align: center;
+}
+
+.selector__btn {
+  background: $app-background;
+  border: solid 1px $border-colour;
+  margin: 5px 0px;
+  outline: none;
+  padding: 5px 20px;
+  font-size: 0.8em;
+  width: 10em;
+}
+
+.selector__btn:hover {
+  cursor: pointer;
+}
+
+.selector__btn--active,
+.selector__btn:active
+{
+  background: #E9E9E9;
+}
+
+.selector__btn-left {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.selector__btn-right {
+  border-left: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}

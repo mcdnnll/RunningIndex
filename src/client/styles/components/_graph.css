@@ -1,0 +1,8 @@
+
+.graph-container {
+  background: $secondary-colour;
+  border: 1px solid $border-colour;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}

@@ -8,4 +8,7 @@
 
 /* Component styles */
 @import "./components/_nav.css";
-@import "./components/_card.css";
+@import "./components/_summarycard.css";
+@import "./components/_totalcard.css";
+@import "./components/_graph.css";
+@import "./components/_selector.css";
