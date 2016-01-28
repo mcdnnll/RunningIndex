@@ -19,7 +19,7 @@ class DashboardContainer extends React.Component {
   }
 
   renderSpinner() {
-    return <div>Spinner</div>;
+    return <div className="loader"></div>;
   }
 
   renderSummaryCards() {

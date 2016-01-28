@@ -1,5 +1,6 @@
 import * as types from '../constants/actionTypes';
 import request from 'superagent';
+import d3 from 'd3';
 
 export function addEntry(runningIndex, location) {
   return {
@@ -74,11 +75,12 @@ export function requestGraphDataFailed() {
   };
 }
 
-export function receiveGraphData(dataset) {
+export function receiveGraphData(allEntries, monthlyAvg) {
   return {
     type: types.RECEIVE_GRAPH_DATA,
     payload: {
-      graphData: dataset,
+      allEntries: allEntries,
+      monthlyAvg: monthlyAvg,
     },
   };
 }
@@ -93,7 +95,27 @@ export function fetchGraphData() {
         if (err) {
           dispatch(requestGraphDataFailed());
         } else {
-          dispatch(receiveGraphData(res.body));
+
+          const runDataAll = res.body.allEntries;
+          const runDataAvg = res.body.monthlyAvg;
+
+          // Convert date string to date object
+          const allEntries = runDataAll.map((entry) => {
+            entry.date = d3.time.format.iso.parse(entry.date);
+            return entry;
+          });
+
+          const monthlyAvg = runDataAvg.map((entry) => {
+            const dateFormat = d3.time.format('%m-%Y');
+            // const monthString = entry.mnth
+            entry.date = dateFormat.parse(entry.mnth.toString() + '-' + entry.yr.toString());
+            return entry;
+          });
+
+          console.log(monthlyAvg);
+
+
+          dispatch(receiveGraphData(allEntries, monthlyAvg));
         }
       });
   };

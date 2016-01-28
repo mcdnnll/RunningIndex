@@ -19,7 +19,7 @@
 }
 
 .graph-bar {
-  fill: blue;
+  fill: $primary-colour;
 }
 
 .x {

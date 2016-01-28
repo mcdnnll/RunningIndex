@@ -1,24 +1,19 @@
 import React, {PropTypes} from 'react';
 import d3 from 'd3';
-import moment from 'moment';
-
 const propTypes = {
   runData: PropTypes.array,
-  handleTransitionEnd: PropTypes.func,
 };
 
-const defaultProps = {
-  runData: [],
-};
+const defaultProps = {};
 
-class RunTotalsGraph extends React.Component {
+class RunAvgGraph extends React.Component {
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
-    const { graphProps, runData} = this.props;
-    this.initGraph(graphProps, runData);
+    const { graphProps, runData } = this.props;
+    this.initGraph(graphProps);
     this.renderGraph(graphProps, runData);
   }
 
@@ -35,7 +30,6 @@ class RunTotalsGraph extends React.Component {
 
     const g = svg.append('g')
       .attr('transform', `translate(${gp.margin.left}, ${gp.margin.top})`);
-
   }
 
   renderGraph(gp, data) {
@@ -43,8 +37,7 @@ class RunTotalsGraph extends React.Component {
     // Dimensions for graph
     const innerWidth = gp.width - gp.margin.left - gp.margin.right;
     const innerHeight = gp.height - gp.margin.top - gp.margin.bottom;
-    const dateParser = d3.time.format.iso.parse;
-    const dateFormat = d3.time.format('%Y-%m-%d');
+    const dateFormat = d3.time.format('%m-%Y');
 
     const g = d3.select('g');
 
@@ -58,11 +51,11 @@ class RunTotalsGraph extends React.Component {
     const xScale = d3.scale.ordinal().rangeBands([0, innerWidth], gp.barPadding);
     const yScale = d3.scale.linear().range([innerHeight, 0]);
 
-    const xAxis = d3.svg.axis().scale(xScale).orient('bottom').tickValues([]);
+    const xAxis = d3.svg.axis().scale(xScale).orient('bottom').tickFormat([]);
     const yAxis = d3.svg.axis().scale(yScale).orient('left');
 
     // const dateSeries = data.map((d) => d[gp.xColumn];
-    // const dateSeries = data.map((d) => moment(d[gp.xColumn]).format('DD-MM-YY'));
+    // const dateSeries = data.map((d) => dateFormat(d[gp.xColumn]));
 
     const dateSeries = data.map((d) => d[gp.xColumn]);
 
@@ -96,7 +89,7 @@ class RunTotalsGraph extends React.Component {
   }
 }
 
-RunTotalsGraph.propTypes = propTypes;
-RunTotalsGraph.defaultProps = defaultProps;
+RunAvgGraph.propTypes = propTypes;
+RunAvgGraph.defaultProps = defaultProps;
 
-export default RunTotalsGraph;
+export default RunAvgGraph;
