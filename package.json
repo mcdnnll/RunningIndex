@@ -13,8 +13,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "boron": "^0.2.3",
     "config": "^1.17.1",
     "cors": "^2.7.1",
+    "d3": "^3.5.12",
     "express": "^4.13.3",
     "history": "^1.13.1",
     "http-status-codes": "^1.0.5",

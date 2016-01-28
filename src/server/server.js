@@ -37,14 +37,15 @@ app.use((req, res, next) => {
   next();
 });
 
-// Web routes
-app.get('/', web.index);
-
 // API routes
 app.get('/api/entries', api.getEntries);
-app.post('/api/entries', api.createEntry);
-app.post('/api/upload', api.uploadEntries);
-app.get('/api/dashboard', api.loadDashboard);
+app.post('/api/entry', api.createEntry);
+app.post('/api/entries', api.uploadEntries);
+app.get('/api/summary', api.getRunSummaries);
+
+// Web routes
+app.get('/', web.index);
+app.get('/manage', web.index);
 
 // Error handling
 app.use(errorHandler);

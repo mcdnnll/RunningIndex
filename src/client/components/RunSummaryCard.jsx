@@ -1,9 +1,8 @@
-
 import React, {PropTypes} from 'react';
 import moment from 'moment';
-import { Column, Grid } from './core/layout/Grid.react';
 
 const propTypes = {
+  title: PropTypes.string,
   runData: PropTypes.object,
 };
 
@@ -17,9 +16,9 @@ const defaultProps = {
     lastWeek: {value: 0, date: 0},
   },
   dataView: 'MONTH',
-}
+};
 
-class RunSummary extends React.Component {
+class RunSummaryCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {activeView: 'MONTH'};
@@ -40,6 +39,8 @@ class RunSummary extends React.Component {
     if (this.state.activeView === viewState) {
       return 'summary-card__btn--active';
     }
+
+    // Return empty string to avoid appending undefined to class name
     return '';
   }
 
@@ -123,7 +124,7 @@ class RunSummary extends React.Component {
   }
 }
 
-RunSummary.defaultProps = defaultProps;
-RunSummary.propTypes = propTypes;
+RunSummaryCard.defaultProps = defaultProps;
+RunSummaryCard.propTypes = propTypes;
 
-export default RunSummary;
+export default RunSummaryCard;
