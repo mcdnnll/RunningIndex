@@ -74,3 +74,24 @@ GROUP by "date"
 ORDER BY value, "date" DESC
 LIMIT 1;
 `;
+
+exports.getAnnualMonthlyRIAverage = `
+SELECT avg("runningIndex"), count(*) as count, extract(month from date) as mnth, extract(year from date) as yr
+FROM "Entries"
+GROUP BY mnth, yr
+ORDER BY yr, mnth;
+`;
+
+exports.getMonthlyRIAverage = `
+SELECT avg("runningIndex"), count(*) as count, extract(month from date) as mnth
+FROM "Entries"
+GROUP BY mnth
+ORDER BY mnth;
+`;
+
+exports.getRIAverageByDayOfWeek = `
+SELECT avg("runningIndex"), count(*) as count, extract(dow from date) as day
+FROM "Entries"
+GROUP BY day
+ORDER BY day;
+`;

@@ -38,13 +38,23 @@ describe('dao/dao.prod', () => {
   });
 
   describe('getAllEntries()', () => {
-    it('should retreive the entire run dataset', (done) => {
+    it('should return the entire run dataset', (done) => {
       dao.getAllEntries()
         .then((fullDataset) => {
           expect(fullDataset).to.be.an('array').and.have.length.above(1400);
           done();
         });
     });
-
   });
+
+  describe.only('getAnnualMonthlyRIAvg', () => {
+    it('should return an array with at least 72 entries', (done) => {
+      dao.getAnnualMonthlyRIAvg()
+        .then((avgMonthlyData) => {
+          expect(avgMonthlyData).to.be.an('array').and.have.length.above(72);
+          done();
+        });
+    });
+  });
+
 });

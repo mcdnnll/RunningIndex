@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const http = require('http-status-codes');
 const models = require('../models');
 const logger = require('../utils/logger');
@@ -8,8 +7,19 @@ const dao = require('../dao');
 exports.getEntries = (req, res, next) => {
   logger.log('info', 'Retrieving running entries');
 
-  dao.getAllEntries()
-    .then((allEntries) => res.status(http.OK).send(allEntries))
+  const allEntries = dao.getAllEntries();
+  const monthlyAvg = dao.getAnnualMonthlyRIAvg();
+
+  Promise.all([allEntries, monthlyAvg])
+    .then((runData) => {
+
+      console.log('promises returned!!')
+
+      res.status(http.OK).send({
+        allEntries: runData[0],
+        monthlyAvg: runData[1],
+      });
+    })
     .catch((e) => next(e));
 };
 
@@ -37,6 +47,7 @@ exports.getRunSummaries = (req, res, next) => {
   const runCountData = dao.getRunCountData();
   const bestRunData = dao.getBestRunData();
   const lifetimeRunTotal = dao.getLifetimeTotalData();
+  // const DayOfWeekSummary = dao.getDayOfWeekSummary();
 
   Promise.all([runCountData, bestRunData, lifetimeRunTotal])
     .then((runData) => {
