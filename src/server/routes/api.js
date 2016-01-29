@@ -7,19 +7,8 @@ const dao = require('../dao');
 exports.getEntries = (req, res, next) => {
   logger.log('info', 'Retrieving running entries');
 
-  const allEntries = dao.getAllEntries();
-  const monthlyAvg = dao.getAnnualMonthlyRIAvg();
-
-  Promise.all([allEntries, monthlyAvg])
-    .then((runData) => {
-
-      console.log('promises returned!!')
-
-      res.status(http.OK).send({
-        allEntries: runData[0],
-        monthlyAvg: runData[1],
-      });
-    })
+  dao.getAllEntries()
+    .then((runData) => res.status(http.OK).send({dataset: runData}))
     .catch((e) => next(e));
 };
 
@@ -57,5 +46,14 @@ exports.getRunSummaries = (req, res, next) => {
         lifetimeTotal: runData[2],
       });
     })
+    .catch((e) => next(e));
+};
+
+exports.getGraphData = (req, res, next) => {
+
+  logger.log('info', 'Retrieving graph data');
+
+  dao.getAnnualMonthlyRIAvg()
+    .then((runData) => res.status(http.OK).send({monthlyAvg: runData}))
     .catch((e) => next(e));
 };

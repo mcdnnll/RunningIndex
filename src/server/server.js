@@ -41,7 +41,8 @@ app.use((req, res, next) => {
 app.get('/api/entries', api.getEntries);
 app.post('/api/entry', api.createEntry);
 app.post('/api/entries', api.uploadEntries);
-app.get('/api/summary', api.getRunSummaries);
+app.get('/api/dashboard/summary', api.getRunSummaries);
+app.get('/api/dashboard/graph', api.getGraphData);
 
 // Web routes
 app.get('/', web.index);
