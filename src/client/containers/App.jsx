@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react';
-import Nav from '../components/nav/Nav.react';
-import { Column, Grid } from '../components/core/layout/Grid.react';
+import Nav from '../components/Nav';
+import { Column, Grid } from '../components/Layout';
 import { connect } from 'react-redux';
-import { pushPath } from 'redux-simple-router';
+import { routeActions } from 'react-router-redux';
+import { fetchDataset } from '../actions/entryActions';
 
 const propTypes = {
+  dataset: PropTypes.array,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(React.PropTypes.node),
     PropTypes.node,
@@ -17,8 +19,14 @@ class App extends React.Component {
     this.handleRouteChange = this.handleRouteChange.bind(this);
   }
 
+  componentDidMount() {
+    const { dispatch } = this.props;
+    console.log('fetching dataset');
+    dispatch(fetchDataset());
+  }
+
   handleRouteChange(nextRoute) {
-    this.props.dispatch(pushPath(nextRoute));
+    this.props.dispatch(routeActions.push(nextRoute));
   }
 
   render() {
@@ -32,6 +40,11 @@ class App extends React.Component {
       {name: 'Manage Entries', path: '/manage'},
     ];
 
+    // Attach dataset to any of the child containers that are to be rendered
+    const childrenWithProps = React.Children.map(this.props.children, (child) => {
+      return React.cloneElement(child, { dataset: this.props.dataset });
+    });
+
     return (
       <div>
         <Nav
@@ -41,7 +54,7 @@ class App extends React.Component {
         />
         <Grid type="padded">
           <Column type="col-10-12 push-1-12">
-            {this.props.children}
+            {childrenWithProps}
           </Column>
         </Grid>
       </div>
@@ -49,6 +62,12 @@ class App extends React.Component {
   }
 }
 
+const mapStateToProps = (state, ownProps) => {
+  return {
+    dataset: state.dataset,
+  };
+};
+
 App.propTypes = propTypes;
 
-export default connect(pushPath)(App);
+export default connect(mapStateToProps)(App);
