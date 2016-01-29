@@ -1,19 +1,19 @@
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
-import { fetchGraphData } from '../actions';
-import { Column, Grid } from '../components/core/layout/Grid.react';
+import { fetchGraphData } from '../actions/dashboardActions';
+import { Column, Grid } from '../components/Layout';
 import RunTotalsGraph from '../components/RunTotalsGraph';
 import RunAvgGraph from '../components/RunAvgGraph';
 import GraphSelector from '../components/GraphSelector';
 import Spinner from '../components/Spinner';
 
 const propTypes = {
-  fullDataset: PropTypes.array,
+  dataset: PropTypes.array,
   monthlyAvg: PropTypes.array,
 };
 
 const defaultProps = {
-  fullDataset: [],
+  dataset: [],
   monthlyAvg: [],
   dataView: 'TOTAL',
 };
@@ -54,7 +54,7 @@ class GraphContainer extends React.Component {
   }
 
   renderTotalGraph() {
-    const { fullDataset } = this.props;
+    const { dataset } = this.props;
 
     const graphProps = Object.assign({}, this.commonGraphProps(), {
       xColumn: 'date',
@@ -64,7 +64,7 @@ class GraphContainer extends React.Component {
 
     return (
       <RunTotalsGraph
-        runData={fullDataset}
+        runData={dataset}
         graphProps={graphProps}
       />
     );
@@ -117,9 +117,9 @@ class GraphContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    fullDataset: state.dashboard.fullDataset,
     monthlyAvg: state.dashboard.monthlyAvg,
     graphIsLoading: state.dashboard.graphIsLoading,
+    dataset: state.entries.isoDateDataset,
   };
 };
 

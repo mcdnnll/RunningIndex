@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import {Grid, Column} from '../core/layout/Grid.react';
+import {Grid, Column} from '../Layout';
 
 const propTypes = {
   onAddClick: PropTypes.func.isRequired,
