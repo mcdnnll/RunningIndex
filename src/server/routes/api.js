@@ -21,9 +21,12 @@ exports.createEntry = (req, res, next) => {
   // Sanitize
   req.body.date = req.sanitize(req.body.date).trim();
   req.body.runningIndex = req.sanitize(req.body.runningIndex).trim();
-  req.body.location = req.sanitize(req.body.location).trim();
   req.body.securityToken = req.sanitize(req.body.securityToken).trim();
 
+  // Location is an optional parameter, only sanitize if it has a value
+  if (typeof req.body.location !== 'undefined' && req.body.location) {
+    req.body.location = req.sanitize(req.body.location).trim();
+  }
   // Validate
   req.checkBody({
     date: {
@@ -54,7 +57,7 @@ exports.createEntry = (req, res, next) => {
   if (req.body.securityToken !== process.env.SECURITY_TOKEN) {
     const err = {
       type: errType.INVALID_SECURITY_TOKEN,
-      message: 'Provided security token is incorrect',
+      message: 'Sorry, the security token is incorrect',
     };
     next(err);
 

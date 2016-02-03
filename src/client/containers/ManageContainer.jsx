@@ -13,7 +13,6 @@ class ManageContainer extends React.Component {
   }
 
   render() {
-
     const { dataset } = this.props;
 
     const itemsPerPage = 100;

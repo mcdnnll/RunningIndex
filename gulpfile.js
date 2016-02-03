@@ -100,6 +100,7 @@ gulp.task('server-watch', function() {
 
   options.env.NODE_PATH = '.';
   options.env.NODE_ENV = 'development';
+  options.env.SECURITY_TOKEN = '1';
   options.env.DEV_DB = true;
 
   server.run([paths.build.server], options);

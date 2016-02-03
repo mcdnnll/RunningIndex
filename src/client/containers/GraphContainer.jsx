@@ -15,14 +15,14 @@ const propTypes = {
 const defaultProps = {
   dataset: [],
   monthlyAvg: [],
-  dataView: 'TOTAL',
+  dataView: 'MONTHLY_AVG',
 };
 
 class GraphContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeView: 'TOTAL',
+      activeView: 'MONTHLY_AVG',
     };
     this.handleViewChange = this.handleViewChange.bind(this);
   }

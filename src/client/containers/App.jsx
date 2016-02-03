@@ -21,7 +21,6 @@ class App extends React.Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    console.log('fetching dataset');
     dispatch(fetchDataset());
   }
 
@@ -30,7 +29,6 @@ class App extends React.Component {
   }
 
   render() {
-
     const navTitle = {
       name: 'RunningIndex', path: '/',
     };

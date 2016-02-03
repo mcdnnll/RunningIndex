@@ -34,6 +34,35 @@ describe('routes/api', () => {
     });
   });
 
+  describe.only('Posting a safe entry with an empty location', () => {
+    let safeEntry;
+    before(() => {
+      safeEntry = {
+        date: new Date().toISOString(),
+        runningIndex: '100',
+        location: '',
+        securityToken: '1',
+      };
+    });
+
+    after((done) => {
+      Entry.destroy({where: {
+        runningIndex: '100',
+      }});
+      done();
+    });
+
+    it('should return a 201 status code (entry added)', (done) => {
+      request
+        .post(config.endpoints.api + '/entries')
+        .send(safeEntry)
+        .end((err, res) => {
+          expect(res.status).to.equal(201);
+          done();
+        });
+    });
+  });
+
   describe('Posting an entry with an incorrect securityToken', () => {
     let malicousEntry;
     before(() => {

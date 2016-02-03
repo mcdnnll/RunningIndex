@@ -2,6 +2,7 @@ import * as types from '../constants/actionTypes';
 import request from 'superagent';
 import d3 from 'd3';
 import moment from 'moment';
+import { fetchRunSummaryData, fetchGraphData } from './dashboardActions';
 
 /* Create new entry actions */
 
@@ -41,13 +42,20 @@ export function postEntry(newEntry) {
 
     // Post new entry to backend and dispatch action based on result
     request
-      .post('/api/entry')
+      .post('/api/entries')
       .send(newEntry)
       .end((err, res) => {
         if (err) {
-          dispatch(createEntryFailed(err));
+          // Use server error message instead of default HTTP error
+          const errObj = JSON.parse(res.text);
+          dispatch(createEntryFailed(errObj.error));
         } else {
+
+          // Re-fetch all data and refresh UI
           dispatch(createEntrySuccess());
+          dispatch(fetchRunSummaryData());
+          dispatch(fetchGraphData());
+          dispatch(fetchDataset());
         }
       });
   };
