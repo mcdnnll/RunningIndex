@@ -108,3 +108,15 @@ exports.getAnnualMonthlyRIAvg = () => {
       throw e;
     });
 };
+
+exports.storeEntry = (entry) => {
+
+  logger.log('info', 'storeEntry(): Starting exec');
+
+  // TODO: need to map the entry fields against the DB fields
+  return models.Entry.create({
+    date: entry.date,
+    runningIndex: entry.runningIndex,
+    location: entry.location,
+  });
+};

@@ -1,6 +1,9 @@
 const config = require('config');
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const expressValidator = require('express-validator');
+const expressSanitizer = require('express-sanitizer');
 const logger = require('./utils/logger');
 
 const models = require('./models');
@@ -10,9 +13,16 @@ const errorHandler = require('./utils/errorHandler');
 
 const app = express();
 
+logger.log('info', 'Starting webserver...');
+
 // View engine init
 app.set('views', config.dir.server + 'views');
 app.set('view engine', 'jade');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressValidator());
+app.use(expressSanitizer());
 
 // Set CORS to allow requests from webpack-dev-server
 app.use(cors({
@@ -39,8 +49,8 @@ app.use((req, res, next) => {
 
 // API routes
 app.get('/api/entries', api.getEntries);
-app.post('/api/entry', api.createEntry);
-app.post('/api/entries', api.uploadEntries);
+app.post('/api/entries', api.createEntry);
+app.put('/api/entries', api.uploadEntries);
 app.get('/api/dashboard/summary', api.getRunSummaries);
 app.get('/api/dashboard/graph', api.getGraphData);
 

@@ -3,21 +3,82 @@ const models = require('../models');
 const logger = require('../utils/logger');
 const csvToJS = require('../utils/csvToJS');
 const dao = require('../dao');
+const errType = require('../utils/constants');
 
 exports.getEntries = (req, res, next) => {
-  logger.log('info', 'Retrieving running entries');
+  logger.log('trace', 'getEntries(): Entered');
 
   dao.getAllEntries()
     .then((runData) => res.status(http.OK).send({dataset: runData}))
     .catch((e) => next(e));
+
+  logger.log('trace', 'getEntries(): Returning');
 };
 
 exports.createEntry = (req, res, next) => {
-  logger.log('info', 'Storing new running entry');
+  logger.log('trace', 'createEntry(): Entered');
 
-  models.Entry.save()
-    .then(() => res.status(http.OK).send())
-    .catch((e) => next(e));
+  // Sanitize
+  req.body.date = req.sanitize(req.body.date).trim();
+  req.body.runningIndex = req.sanitize(req.body.runningIndex).trim();
+  req.body.location = req.sanitize(req.body.location).trim();
+  req.body.securityToken = req.sanitize(req.body.securityToken).trim();
+
+  // Validate
+  req.checkBody({
+    date: {
+      notEmpty: true,
+      errorMessage: 'Error, No date provided',
+    },
+    runningIndex: {
+      notEmpty: true,
+      isInt: {
+        options: [{min: 1, max: 100}],
+        errorMessage: 'Running index must be between 1 and 100',
+      },
+      errorMessage: 'Error, No running index provided',
+    },
+    location: {
+      optional: true,
+    },
+    securityToken: {
+      notEmpty: true,
+      errorMessage: 'Error, No security token provided',
+    },
+  });
+
+  const validationErrors = req.validationErrors();
+
+  // Short-ciruit request where incorrect security token is provided
+  // or validation error were found
+  if (req.body.securityToken !== process.env.SECURITY_TOKEN) {
+    const err = {
+      type: errType.INVALID_SECURITY_TOKEN,
+      message: 'Provided security token is incorrect',
+    };
+    next(err);
+
+  } else if (validationErrors) {
+    logger.log('warn', 'createEntry(): Validation errors detected');
+    logger.log('warn', validationErrors);
+
+    const err = {
+      type: errType.INVALID_INPUT,
+      message: validationErrors,
+    };
+
+    next(err);
+
+  } else {
+    logger.log('trace', 'createEntry(): Validation & Security check succeeded');
+
+    const entry = req.body;
+
+    dao.storeEntry(entry)
+      .then(() => res.status(http.CREATED).send())
+      .catch((e) => next(e));
+  }
+  logger.log('trace', 'createEntry(): Returning');
 };
 
 exports.uploadEntries = (req, res, next) => {
@@ -31,6 +92,8 @@ exports.uploadEntries = (req, res, next) => {
 };
 
 exports.getRunSummaries = (req, res, next) => {
+
+  logger.log('trace', 'Retrieving run summaries');
 
   // Retrieve data summaries for dashboard
   const runCountData = dao.getRunCountData();
@@ -51,7 +114,7 @@ exports.getRunSummaries = (req, res, next) => {
 
 exports.getGraphData = (req, res, next) => {
 
-  logger.log('info', 'Retrieving graph data');
+  logger.log('trace', 'Retrieving graph data');
 
   dao.getAnnualMonthlyRIAvg()
     .then((runData) => res.status(http.OK).send({monthlyAvg: runData}))

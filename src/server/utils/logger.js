@@ -2,10 +2,10 @@ const winston = require('winston');
 
 const customColours = {
   trace: 'white',
-  debug: 'green',
+  debug: 'blue',
   info: 'green',
   warn: 'yellow',
-  crit: 'red',
+  critical: 'orange',
   fatal: 'red',
 };
 
@@ -17,13 +17,14 @@ const logger = new winston.Logger({
     debug: 1,
     info: 2,
     warn: 3,
-    crit: 4,
+    critical: 4,
     fatal: 5,
   },
   transports: [
     new (winston.transports.Console)({
       colorize: true,
       timestamp: true,
+      level: 'fatal',
     }),
   ],
 });
