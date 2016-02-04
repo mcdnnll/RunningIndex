@@ -34,7 +34,7 @@ describe('routes/api', () => {
     });
   });
 
-  describe.only('Posting a safe entry with an empty location', () => {
+  describe('Posting a safe entry with an empty location', () => {
     let safeEntry;
     before(() => {
       safeEntry = {

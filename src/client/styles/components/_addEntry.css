@@ -36,7 +36,7 @@
 }
 
 .addEntry__btn--left:hover {
-  background-color: #E85555;
+  background-color: $primary-colour;
   border: 1px solid transparent;
   color: white;
 }

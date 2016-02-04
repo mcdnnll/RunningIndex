@@ -87,7 +87,7 @@ exports.createEntry = (req, res, next) => {
 exports.uploadEntries = (req, res, next) => {
 
   // Convert csv file to JS objects
-  const entryPath = '../../scripts/ri.txt';
+  const entryPath = '../../../support/runningindex.csv';
   csvToJS(entryPath)
     .then((parsedEntries) => models.Entry.bulkCreate(parsedEntries))
     .then(() => res.status(http.OK).send())

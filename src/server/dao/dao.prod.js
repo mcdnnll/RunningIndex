@@ -84,14 +84,16 @@ exports.getAllEntries = () => {
 
   logger.log('info', 'getAllEntries(): Starting exec');
 
-  return models.Entry.findAll({attributes: ['id', 'date', 'runningIndex', 'location']})
-    .then((dbData) => {
-      logger.log('info', 'getAllEntries(): returning');
-      return dbData;
-    })
-    .catch((e) => {
-      throw e;
-    });
+  return models.Entry.findAll({
+    attributes: ['id', 'date', 'runningIndex', 'location'],
+    order: ['date'],
+  }).then((dbData) => {
+    logger.log('info', 'getAllEntries(): returning');
+    return dbData;
+  })
+  .catch((e) => {
+    throw e;
+  });
 };
 
 exports.getAnnualMonthlyRIAvg = () => {
