@@ -84,14 +84,16 @@ exports.getAllEntries = () => {
 
   logger.log('info', 'getAllEntries(): Starting exec');
 
-  return models.Entry.findAll({attributes: ['id', 'date', 'runningIndex', 'location']})
-    .then((dbData) => {
-      logger.log('info', 'getAllEntries(): returning');
-      return dbData;
-    })
-    .catch((e) => {
-      throw e;
-    });
+  return models.Entry.findAll({
+    attributes: ['id', 'date', 'runningIndex', 'location'],
+    order: ['date'],
+  }).then((dbData) => {
+    logger.log('info', 'getAllEntries(): returning');
+    return dbData;
+  })
+  .catch((e) => {
+    throw e;
+  });
 };
 
 exports.getAnnualMonthlyRIAvg = () => {
@@ -107,4 +109,16 @@ exports.getAnnualMonthlyRIAvg = () => {
     .catch((e) => {
       throw e;
     });
+};
+
+exports.storeEntry = (entry) => {
+
+  logger.log('info', 'storeEntry(): Starting exec');
+
+  // TODO: need to map the entry fields against the DB fields
+  return models.Entry.create({
+    date: entry.date,
+    runningIndex: entry.runningIndex,
+    location: entry.location,
+  });
 };

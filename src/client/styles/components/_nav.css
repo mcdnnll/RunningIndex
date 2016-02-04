@@ -9,6 +9,10 @@
   font-size: 0;
 }
 
+.nav__list--right {
+  float: right;
+}
+
 .nav__list {
   display: inline-block;
   vertical-align: bottom;
@@ -22,6 +26,10 @@
   padding: 20px;
   text-decoration: none;
   transition: .2s;
+}
+
+.nav__item--right {
+  margin-right: 135px;
 }
 
 .nav__item:hover {

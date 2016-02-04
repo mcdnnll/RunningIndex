@@ -1,12 +1,14 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { fetchRunSummaryData } from '../actions';
-import { Column, Grid } from '../components/core/layout/Grid.react';
+import { fetchRunSummaryData } from '../actions/dashboardActions';
+import { Column, Grid } from '../components/Layout';
 import GraphContainer from './GraphContainer';
 import RunSummaryCard from '../components/RunSummaryCard';
 import RunTotalCard from '../components/RunTotalCard';
 
-const propTypes = {};
+const propTypes = {
+  dashboard: PropTypes.object,
+};
 
 class DashboardContainer extends React.Component {
   constructor(props) {

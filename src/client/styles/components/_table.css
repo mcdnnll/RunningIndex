@@ -1,0 +1,64 @@
+
+table {
+  border-collapse: collapse;
+  background-color: #FFFFFF;
+}
+
+td, th {
+  border: 1px solid #999;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.reactable-data > tr:hover {
+  background: #f4f4f4;
+}
+
+.entryTable {
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.reactable-filter-input {
+  padding: 5px;
+  font-size: 0.8em;
+  width: 50%;
+}
+
+.reactable-page-button {
+  visibility: hidden;
+}
+
+.reactable-previous-page,
+.reactable-next-page {
+  border: 1px solid transparent;
+  padding: 8px 10px;
+  text-align: center;
+  text-decoration: none;
+  width: 100px;
+  background: $primary-colour;
+  color: #FFFFFF;
+}
+
+.reactable-previous-page {
+  float: left;
+}
+
+.reactable-next-page {
+  float: right;
+}
+
+.reactable-column-header {
+  background: $primary-colour;
+  color: #FFFFFF;
+}
+
+.reactable-th-id,
+.reactable-th-date,
+.reactable-th-runningindex,
+.reactable-th-location {
+  font-size: 1em;
+  font-weight: 400;
+}
+
+

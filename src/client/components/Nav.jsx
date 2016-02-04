@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import { Grid, Column } from '../core/layout/Grid.react';
+import { Grid, Column } from './Layout';
+import AddEntryModal from './AddEntryModal';
 
 const propTypes = {
   children: PropTypes.oneOfType([
@@ -14,20 +15,21 @@ class Nav extends React.Component {
   }
 
   render() {
-    // const {navTitle, navLinks} = this.props;
+    const {navTitle, navLinks} = this.props;
 
     return (
       <nav className="nav">
         <Grid type="nav">
-            <a className="nav__title" href={this.props.navTitle.path}>{this.props.navTitle.name}</a>
+            <a className="nav__title" href={navTitle.path}>{navTitle.name}</a>
             <ul className="nav__row">
-              {this.props.navLinks.map((item, i) => {
+              {navLinks.map((item, i) => {
                 return (
                   <li key={i} className="nav__list">
                     <a className="nav__item" onClick={this.props.updateRoute.bind(null, item.path)}>{item.name}</a>
                   </li>
                 );
               })}
+              <AddEntryModal />
             </ul>
         </Grid>
       </nav>

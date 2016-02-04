@@ -1,20 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Router from 'react-router';
+import Router, { browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
-import { syncReduxAndRouter } from 'redux-simple-router';
 import routes from './routes';
-import configuredStore from './store';
+import configuredStore, { reduxRouter } from './store';
 
 const store = configuredStore();
-// const history = createHistory();
-const history = createBrowserHistory();
-
-syncReduxAndRouter(history, store);
+reduxRouter.listenForReplays(store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>{routes}</Router>
+    <Router history={browserHistory}>{routes}</Router>
   </Provider>, document.getElementById('app')
 );

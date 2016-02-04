@@ -34,7 +34,6 @@ export default function dashboard(state = {}, action) {
     case types.RECEIVE_GRAPH_DATA:
       return Object.assign({}, state, {
         graphIsLoading: false,
-        fullDataset: action.payload.allEntries,
         monthlyAvg: action.payload.monthlyAvg,
       });
 
