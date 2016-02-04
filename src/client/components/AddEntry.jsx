@@ -124,15 +124,7 @@ class AddEntry extends React.Component {
   }
 
   render() {
-
     const { addEntryPosted, addEntryFailed, addEntryResult} = this.props;
-
-    // Close modal if XHR completes successfully
-    if (addEntryResult === 'success') {
-      setTimeout(() => {
-        this.props.handleCloseModal();
-      }, 250);
-    }
 
     return (
       <div>

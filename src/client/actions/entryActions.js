@@ -3,6 +3,7 @@ import request from 'superagent';
 import d3 from 'd3';
 import moment from 'moment';
 import { fetchRunSummaryData, fetchGraphData } from './dashboardActions';
+import { closeModal } from './uiActions';
 
 /* Create new entry actions */
 
@@ -50,6 +51,8 @@ export function postEntry(newEntry) {
           const errObj = JSON.parse(res.text);
           dispatch(createEntryFailed(errObj.error));
         } else {
+
+          dispatch(closeModal());
 
           // Re-fetch all data and refresh UI
           dispatch(createEntrySuccess());

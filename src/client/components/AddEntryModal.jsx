@@ -1,23 +1,28 @@
 import React, {PropTypes} from 'react';
+import { connect } from 'react-redux';
 import AddEntryContainer from '../containers/AddEntryContainer';
 import Modal from 'react-modal';
+import { openModal, closeModal } from '../actions/uiActions';
 
 const propTypes = {};
 
 class AddEntryModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {modalIsOpen: false};
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.handleOpenModal = this.handleOpenModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
-  openModal() {
-    this.setState({modalIsOpen: true});
+  handleOpenModal() {
+    const { dispatch } = this.props;
+    dispatch(openModal());
+    // this.setState({modalIsOpen: true});
   }
 
-  closeModal() {
-    this.setState({modalIsOpen: false});
+  handleCloseModal() {
+    const { dispatch } = this.props;
+    dispatch(closeModal());
+    // this.setState({modalIsOpen: false});
   }
 
   render() {
@@ -38,15 +43,21 @@ class AddEntryModal extends React.Component {
 
     return (
       <li className="nav__list nav__list--right">
-        <a className="nav__item nav__item--right" onClick={this.openModal}>+ Add</a>
-        <Modal style={customStyles} isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
-            <AddEntryContainer handleCloseModal={this.closeModal}/>
+        <a className="nav__item nav__item--right" onClick={this.handleOpenModal}>+ Add</a>
+        <Modal style={customStyles} isOpen={this.props.modalIsOpen} onRequestClose={this.handleCloseModal}>
+            <AddEntryContainer handleCloseModal={this.handleCloseModal}/>
         </Modal>
       </li>
     );
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    modalIsOpen: state.ui.modalIsOpen,
+  };
+};
+
 AddEntryModal.propTypes = propTypes;
 
-export default AddEntryModal;
+export default connect(mapStateToProps)(AddEntryModal);
