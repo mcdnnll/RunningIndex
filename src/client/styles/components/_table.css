@@ -54,7 +54,7 @@ td, th {
 }
 
 .reactable-th-id,
-.reactable-th-date,
+.reactable-th-tidydate,
 .reactable-th-runningindex,
 .reactable-th-location {
   font-size: 1em;
