@@ -146,7 +146,7 @@ class AddEntry extends React.Component {
         </div>
         <div className="addEntry__input-group">
           <span>Security Token</span>
-          <input className="addEntry__input" type="text" ref="securityInput" placeholder="Authenticate entry" />
+          <input className="addEntry__input" type="password" ref="securityInput" placeholder="Authenticate entry" />
         </div>
         <div className="addEntry__btn-group">
           <button className="addEntry__btn addEntry__btn--right" onClick={() => this.handleSubmit()}>Add</button>

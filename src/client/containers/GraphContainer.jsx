@@ -43,10 +43,10 @@ class GraphContainer extends React.Component {
       width: 890,
       height: 450,
       margin: {
-        left: 35,
+        left: 45,
         top: 20,
         right: 20,
-        bottom: 25,
+        bottom: 35,
       },
     };
 
@@ -71,7 +71,6 @@ class GraphContainer extends React.Component {
   }
 
   renderMonthlyAvgGraph() {
-
     const { monthlyAvg } = this.props;
 
     const graphProps = Object.assign({}, this.commonGraphProps(), {
@@ -106,7 +105,7 @@ class GraphContainer extends React.Component {
             currentView={this.state.activeView}
             changeView={this.handleViewChange}
           />
-          <div className="graph-container">
+          <div className="graph__container">
             {graphIsLoading ? <Spinner /> : renderActiveView}
           </div>
         </Column>
@@ -119,7 +118,7 @@ const mapStateToProps = (state) => {
   return {
     monthlyAvg: state.dashboard.monthlyAvg,
     graphIsLoading: state.dashboard.graphIsLoading,
-    dataset: state.entries.isoDateDataset,
+    dataset: state.entries.dataset,
   };
 };
 

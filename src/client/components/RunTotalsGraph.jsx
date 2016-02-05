@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import d3 from 'd3';
 import moment from 'moment';
+import d3Tip from 'd3-tip';
 
 const propTypes = {
   runData: PropTypes.array,
@@ -29,13 +30,11 @@ class RunTotalsGraph extends React.Component {
   }
 
   initGraph(gp) {
-    const svg = d3.select('svg')
+    d3.select('svg')
       .attr('width', gp.width)
-      .attr('height', gp.height);
-
-    const g = svg.append('g')
+      .attr('height', gp.height)
+      .append('g')
       .attr('transform', `translate(${gp.margin.left}, ${gp.margin.top})`);
-
   }
 
   renderGraph(gp, data) {
@@ -43,55 +42,90 @@ class RunTotalsGraph extends React.Component {
     // Dimensions for graph
     const innerWidth = gp.width - gp.margin.left - gp.margin.right;
     const innerHeight = gp.height - gp.margin.top - gp.margin.bottom;
-    const dateParser = d3.time.format.iso.parse;
-    const dateFormat = d3.time.format('%Y-%m-%d');
 
     const g = d3.select('g');
-
     const xAxisG = g.append('g')
-      .attr('class', 'x graph-axis')
+      .attr('class', 'x graph__axis')
       .attr('transform', `translate(0, ${innerHeight})`);
 
     const yAxisG = g.append('g')
-      .attr('class', 'y graph-axis');
+      .attr('class', 'y graph__axis');
 
-    const xScale = d3.scale.ordinal().rangeBands([0, innerWidth], gp.barPadding);
-    const yScale = d3.scale.linear().range([innerHeight, 0]);
+    const xScale = d3.time.scale()
+      .domain(d3.extent(data, (d) => d[gp.xColumn]))
+      .range([0, innerWidth]);
 
-    const xAxis = d3.svg.axis().scale(xScale).orient('bottom').tickValues([]);
-    const yAxis = d3.svg.axis().scale(yScale).orient('left');
+    const yScale = d3.scale.linear()
+      .domain(d3.extent(data, (d) => d[gp.yColumn]))
+      .range([innerHeight, 0]);
 
-    // const dateSeries = data.map((d) => d[gp.xColumn];
-    // const dateSeries = data.map((d) => moment(d[gp.xColumn]).format('DD-MM-YY'));
+    const colourScale = d3.scale.category20c();
 
-    const dateSeries = data.map((d) => d[gp.xColumn]);
+    const xAxis = d3.svg.axis()
+      .scale(xScale)
+      .orient('bottom')
+      .ticks(10);
 
-    xScale.domain(dateSeries);
-    yScale.domain([0, d3.max(data, (d) => d[gp.yColumn])]);
+    const yAxis = d3.svg.axis()
+      .scale(yScale)
+      .orient('left');
 
     xAxisG.call(xAxis);
     yAxisG.call(yAxis);
 
-    const bars = g.selectAll('rect').data(data);
+    const svg = d3.select('svg');
+
+        // Add an x-axis label.
+    svg.append('text')
+      .attr('class', 'graph__x-label')
+      .attr('text-anchor', 'middle')
+      .attr('x', gp.width / 2)
+      .attr('y', gp.height - 5)
+      .text('Year');
+
+    // Add a y-axis label.
+    svg.append('text')
+      .attr('class', 'graph__y-label')
+      .attr('text-anchor', 'middle')
+      .attr('x', -(gp.height / 2))
+      .attr('y', 8)
+      .attr('dy', '.5em')
+      .attr('transform', 'rotate(-90)')
+      .text('Running Index');
+
+    // Apply tooltip
+    const tip = d3Tip()
+      .attr('class', 'graph__tooltip')
+      .offset([-10, 0])
+      .html((d) => {
+        const tooltipMonth = '<span class="graph__tooltip-title">' + moment(d[gp.xColumn]).format("ddd DD MMM 'YY") + ': </span>';
+        const tooltipAvg = '<span class="graph__tooltip-value">' + Math.round(d[gp.yColumn]) + '</span>';
+        return tooltipMonth + tooltipAvg;
+      });
+    d3.select(this.refs.svg).call(tip);
+
+    const scatter = g.selectAll('dot').data(data);
 
     // Generate bars for new data
-    bars.enter().append('rect');
+    scatter.enter().append('circle')
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
 
     // Update
-    bars
-      .attr('class', 'graph-bar')
-      .attr('x', (d) => xScale(d[gp.xColumn]))
-      .attr('y', (d) => yScale(d[gp.yColumn]))
-      .attr('width', xScale.rangeBand())
-      .attr('height', (d) => innerHeight - yScale(d[gp.yColumn]));
+    scatter
+      .attr('class', 'graph__circle')
+      .attr('r', 3.5)
+      .attr('cx', (d) => xScale(d[gp.xColumn]))
+      .attr('cy', (d) => yScale(d[gp.yColumn]))
+      .attr('stroke', (d) => colourScale(d['dow']));
 
-    bars.exit().remove();
+    scatter.exit().remove();
 
   }
 
   render() {
     return (
-      <svg className="runTotalsGraph"></svg>
+      <svg className="runTotalsGraph" ref="svg"></svg>
     );
   }
 }
