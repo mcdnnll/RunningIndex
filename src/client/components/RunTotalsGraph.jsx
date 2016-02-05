@@ -109,7 +109,7 @@ class RunTotalsGraph extends React.Component {
     // Generate bars for new data
     scatter.enter().append('circle')
       .on('mouseover', tip.show)
-      .on('mouseout', tip.hide);;
+      .on('mouseout', tip.hide);
 
     // Update
     scatter
