@@ -12,6 +12,7 @@ const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.p
   host: dbConfig.host,
   dialect: dbConfig.dialect,
   logging: logger.info,
+  timezone: dbConfig.timezone,
 });
 
 const db = {};

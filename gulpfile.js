@@ -133,3 +133,8 @@ gulp.task('full-build', function(){
       .pipe(gulpif(/.jsx?$/,babel()))
       .pipe(gulp.dest(paths.build.root));
 });
+
+gulp.task('load-db', function() {
+  var cmd = new run.Command('node support/loadDBData.js');
+  cmd.exec();
+});

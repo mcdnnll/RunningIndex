@@ -29,7 +29,8 @@
       "password": "",
       "database": "ri",
       "host": "localhost",
-      "dialect": "postgres"
+      "dialect": "postgres",
+      "timezone": "+11:00"
     }
   }
 }
