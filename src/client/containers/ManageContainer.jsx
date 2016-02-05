@@ -42,7 +42,7 @@ class ManageContainer extends React.Component {
 
     const tableColumns = [
       {key: 'id', label: 'ID'},
-      {key: 'date', label: 'Date'},
+      {key: 'tidyDate', label: 'Date'},
       {key: 'runningIndex', label: 'Running Index'},
       {key: 'location', label: 'Location'},
     ];
@@ -77,7 +77,7 @@ class ManageContainer extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    dataset: state.entries.tidyDateDataset,
+    dataset: state.entries.dataset,
     datasetIsLoading: state.entries.datasetIsLoading,
   };
 };

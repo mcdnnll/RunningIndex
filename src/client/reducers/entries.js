@@ -28,8 +28,7 @@ export default function entries(state = {}, action) {
     case types.RECEIVE_DATASET:
       return Object.assign({}, state, {
         datasetIsLoading: false,
-        isoDateDataset: action.payload.isoDateDataset,
-        tidyDateDataset: action.payload.tidyDateDataset,
+        dataset: action.payload.dataset,
       });
 
     case types.REQUEST_DATASET_FAIL:

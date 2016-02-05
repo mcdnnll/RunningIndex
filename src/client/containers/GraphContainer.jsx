@@ -118,7 +118,7 @@ const mapStateToProps = (state) => {
   return {
     monthlyAvg: state.dashboard.monthlyAvg,
     graphIsLoading: state.dashboard.graphIsLoading,
-    dataset: state.entries.isoDateDataset,
+    dataset: state.entries.dataset,
   };
 };
 

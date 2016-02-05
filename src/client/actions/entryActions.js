@@ -75,12 +75,11 @@ export function requestDataset() {
 }
 
 // XHR successfully retrieved dataset
-export function recieveDataset(isoDateDataset, tidyDateDataset) {
+export function recieveDataset(dataset) {
   return {
     type: types.RECEIVE_DATASET,
     payload: {
-      isoDateDataset,
-      tidyDateDataset,
+      dataset,
     },
   };
 }
@@ -108,21 +107,18 @@ export function fetchDataset() {
         if (err) {
           dispatch(requestDatasetFailed(err));
         } else {
-          const { dataset } = res.body;
+          let { dataset } = res.body;
 
           // Convert date string to date object
-          const isoDateDataset = dataset.map((entry) => {
+          // Add tidy date for tabulated data on manage entries view
+          dataset = dataset.map((entry) => {
             entry.date = d3.time.format.iso.parse(entry.date);
+            entry.tidyDate = moment(entry.date).format('dddd Do MMM YYYY');
+            entry.dow = moment(entry.date).format('MM');
             return entry;
           });
 
-          //
-          const tidyDateDataset = dataset.map((entry) => {
-            entry.date = moment(entry.date).format('dddd Do MMM YYYY');
-            return entry;
-          });
-
-          dispatch(recieveDataset(isoDateDataset, tidyDateDataset));
+          dispatch(recieveDataset(dataset));
         }
       });
 

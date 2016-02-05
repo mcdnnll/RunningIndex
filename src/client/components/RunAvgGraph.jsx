@@ -68,7 +68,9 @@ class RunAvgGraph extends React.Component {
       .ticks(d3.time.year, 1)
       .tickFormat(d3.time.format('%Y'));
 
-    const yAxis = d3.svg.axis().scale(yScale).orient('left');
+    const yAxis = d3.svg.axis()
+      .scale(yScale)
+      .orient('left');
 
     // Apply axes to their respective grouping
     xAxisG.call(xAxis);
@@ -123,7 +125,6 @@ class RunAvgGraph extends React.Component {
       .transition().duration(1000)
       .attr('y', (d) => yScale(d[gp.yColumn]))
       .attr('height', (d) => innerHeight - yScale(d[gp.yColumn]));
-
 
     bars.exit().remove();
 

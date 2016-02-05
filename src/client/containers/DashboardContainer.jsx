@@ -51,7 +51,7 @@ class DashboardContainer extends React.Component {
             <RunSummaryCard title="Best Running Index" runData={bestRun} />
           </Column>
           <Column type="col-4-12">
-            <RunTotalCard title={'Average - ' + currentMonthStr} runData={currentMonthAvg} />
+            <RunTotalCard title={currentMonthStr + ' Average'} runData={currentMonthAvg} />
             <RunTotalCard title="Lifetime Run Total" runData={lifetimeTotal} />
           </Column>
         </Grid>

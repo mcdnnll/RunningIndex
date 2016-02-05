@@ -22,6 +22,11 @@
   fill: $primary-colour;
 }
 
+.graph__circle {
+  fill: none;
+  stroke-width: 2px;
+}
+
 .graph__x-label {
   font-size: 0.7em;
 }
@@ -31,7 +36,7 @@
 }
 
 .graph__tooltip-title {
-  font-weight: 400;
+  font-weight: 500;
   color: $secondary-colour;
 }
 
