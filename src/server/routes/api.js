@@ -27,6 +27,7 @@ exports.createEntry = (req, res, next) => {
   if (typeof req.body.location !== 'undefined' && req.body.location) {
     req.body.location = req.sanitize(req.body.location).trim();
   }
+
   // Validate
   req.checkBody({
     date: {
@@ -102,14 +103,15 @@ exports.getRunSummaries = (req, res, next) => {
   const runCountData = dao.getRunCountData();
   const bestRunData = dao.getBestRunData();
   const lifetimeRunTotal = dao.getLifetimeTotalData();
-  // const DayOfWeekSummary = dao.getDayOfWeekSummary();
+  const currentMonthAverage = dao.getCurrentMonthAverage();
 
-  Promise.all([runCountData, bestRunData, lifetimeRunTotal])
+  Promise.all([runCountData, bestRunData, lifetimeRunTotal, currentMonthAverage])
     .then((runData) => {
       res.status(http.OK).send({
         runCount: runData[0],
         bestRun: runData[1],
         lifetimeTotal: runData[2],
+        currentMonthAvg: runData[3],
       });
     })
     .catch((e) => next(e));

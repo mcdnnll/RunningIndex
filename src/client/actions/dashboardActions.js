@@ -14,13 +14,14 @@ export function requestRunSummaryData() {
 }
 
 // XHR successfully retrieved data for populating dashboard cards
-export function receiveRunSummaryData(runCountData, bestRunData, lifetimeTotal) {
+export function receiveRunSummaryData(runCountData, bestRunData, lifetimeTotal, currentMonthAvg) {
   return {
     type: types.RECEIVE_RUN_SUMMARY_DATA,
     payload: {
       runCount: runCountData,
       bestRun: bestRunData,
       lifetimeTotal: lifetimeTotal,
+      currentMonthAvg: currentMonthAvg,
     },
   };
 }
@@ -45,7 +46,8 @@ export function fetchRunSummaryData() {
         if (err) {
           dispatch(requestRunSummaryDataFailed());
         } else {
-          dispatch(receiveRunSummaryData(res.body.runCount, res.body.bestRun, res.body.lifetimeTotal));
+          const {runCount, bestRun, lifetimeTotal, currentMonthAvg} = res.body;
+          dispatch(receiveRunSummaryData(runCount, bestRun, lifetimeTotal, currentMonthAvg));
         }
       });
   };

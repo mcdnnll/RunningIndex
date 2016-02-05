@@ -47,11 +47,21 @@ describe('dao/dao.prod', () => {
     });
   });
 
-  describe.only('getAnnualMonthlyRIAvg', () => {
+  describe('getAnnualMonthlyRIAvg', () => {
     it('should return an array with at least 72 entries', (done) => {
       dao.getAnnualMonthlyRIAvg()
         .then((avgMonthlyData) => {
           expect(avgMonthlyData).to.be.an('array').and.have.length.above(72);
+          done();
+        });
+    });
+  });
+
+  describe('getCurrentMonthAverage', () => {
+    it('should return an object with "avg" and "count" keys', (done) => {
+      dao.getCurrentMonthAverage()
+        .then((currentMnthAvg) => {
+          expect(currentMnthAvg).to.be.an('object').and.has.all.keys(['avg', 'count']);
           done();
         });
     });

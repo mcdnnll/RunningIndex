@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { fetchRunSummaryData } from '../actions/dashboardActions';
 import { Column, Grid } from '../components/Layout';
 import GraphContainer from './GraphContainer';
@@ -25,18 +26,33 @@ class DashboardContainer extends React.Component {
   }
 
   renderSummaryCards() {
+    const currentTime = moment.now();
+    const currentMonthStr = moment(currentTime).format('MMMM YYYY');
+
+    const {runCount, bestRun, lifetimeTotal } = this.props.dashboard;
+
+    // Override null when there aren't any runs for the current month
+    let currentMonthAvg;
+    if (typeof this.props.dashboard.currentMonthAvg === 'undefined') {
+      currentMonthAvg = 0;
+    } else if (this.props.dashboard.currentMonthAvg.avg === null) {
+      currentMonthAvg = 0;
+    } else {
+      currentMonthAvg = Math.round(this.props.dashboard.currentMonthAvg.avg);
+    }
+
     return (
       <div>
         <Grid>
           <Column type="col-4-12">
-            <RunSummaryCard title="Run Count" runData={this.props.dashboard.runCount} />
+            <RunSummaryCard title="Run Count" runData={runCount} />
           </Column>
           <Column type="col-4-12">
-            <RunSummaryCard title="Best Running Index" runData={this.props.dashboard.bestRun} />
+            <RunSummaryCard title="Best Running Index" runData={bestRun} />
           </Column>
           <Column type="col-4-12">
-            <RunTotalCard title="Lifetime Run Total" runData={this.props.dashboard.lifetimeTotal} />
-            <RunTotalCard title="Best Monthly RI Avg" runData={this.props.dashboard.lifetimeTotal} />
+            <RunTotalCard title={'Average - ' + currentMonthStr} runData={currentMonthAvg} />
+            <RunTotalCard title="Lifetime Run Total" runData={lifetimeTotal} />
           </Column>
         </Grid>
       </div>
@@ -45,7 +61,6 @@ class DashboardContainer extends React.Component {
 
   render() {
     const pageIsLoading = this.props.dashboard.isLoading;
-
     return (
       <div>
         <GraphContainer />

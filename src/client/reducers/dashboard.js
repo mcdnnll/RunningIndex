@@ -13,6 +13,7 @@ export default function dashboard(state = {}, action) {
         runCount: action.payload.runCount,
         bestRun: action.payload.bestRun,
         lifetimeTotal: action.payload.lifetimeTotal,
+        currentMonthAvg: action.payload.currentMonthAvg,
       });
 
     case types.REQUEST_RUN_SUMMARY_DATA_FAILED:

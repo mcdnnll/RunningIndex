@@ -72,19 +72,19 @@ class RunSummaryCard extends React.Component {
     return (
         <div className="summary-card__display-group">
           <div className="summary-card__display">
-            <div>{currentPeriodString}</div>
-            <div className="summary-card__display-value">{currentPeriodData.value}</div>
-            <div className="summary-card__display-date">
-              {currentPeriodData.date ? this.formatDate(currentPeriodData.date) : <div></div>}
-            </div>
-          </div>
-          <div className="summary-card__display">
             <div>{lastPeriodString}</div>
             <div className="summary-card__display-value">
               {lastPeriodData.value}
             </div>
             <div className="summary-card__display-date">
             {lastPeriodData.date ? this.formatDate(lastPeriodData.date) : <div></div>}
+            </div>
+          </div>
+          <div className="summary-card__display">
+            <div>{currentPeriodString}</div>
+            <div className="summary-card__display-value">{currentPeriodData.value}</div>
+            <div className="summary-card__display-date">
+              {currentPeriodData.date ? this.formatDate(currentPeriodData.date) : <div></div>}
             </div>
           </div>
         </div>
