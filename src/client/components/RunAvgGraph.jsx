@@ -24,11 +24,12 @@ class RunAvgGraph extends React.Component {
   }
 
   initGraph(gp) {
-    const svg = d3.select('svg')
+    d3.select('svg')
       .attr('width', gp.width)
-      .attr('height', gp.height);
+      .attr('height', gp.height)
 
-    const g = svg.append('g')
+      // Append group element as child to svg and add offset
+      .append('g')
       .attr('transform', `translate(${gp.margin.left}, ${gp.margin.top})`);
   }
 
@@ -37,45 +38,54 @@ class RunAvgGraph extends React.Component {
     // Dimensions for graph
     const innerWidth = gp.width - gp.margin.left - gp.margin.right;
     const innerHeight = gp.height - gp.margin.top - gp.margin.bottom;
-    const dateFormat = d3.time.format('%m-%Y');
 
     const g = d3.select('g');
-
     const xAxisG = g.append('g')
       .attr('class', 'x graph-axis')
+      // Translate starting position of X axis
       .attr('transform', `translate(0, ${innerHeight})`);
 
     const yAxisG = g.append('g')
       .attr('class', 'y graph-axis');
 
-    const xScale = d3.scale.ordinal().rangeBands([0, innerWidth], gp.barPadding);
-    const yScale = d3.scale.linear().range([innerHeight, 0]);
+    // Scales must stay within graph's container
+    const xScale = d3.time.scale()
+      // Dynamically find Min, Max from dataset
+      .domain(d3.extent(data, (d) => d[gp.xColumn]))
+      .range([0, innerWidth]);
 
-    const xAxis = d3.svg.axis().scale(xScale).orient('bottom').tickFormat([]);
+    const yScale = d3.scale.linear()
+      .domain([0, 100])
+      .range([innerHeight, 0]);
+
+    // Configure Axes
+    const xAxis = d3.svg.axis()
+      .scale(xScale)
+      .orient('bottom')
+      .ticks(d3.time.year, 1)
+      .tickFormat(d3.time.format('%Y'));
+
     const yAxis = d3.svg.axis().scale(yScale).orient('left');
 
-    // const dateSeries = data.map((d) => d[gp.xColumn];
-    // const dateSeries = data.map((d) => dateFormat(d[gp.xColumn]));
-
-    const dateSeries = data.map((d) => d[gp.xColumn]);
-
-    xScale.domain(dateSeries);
-    yScale.domain([0, 100]);
-
+    // Apply axes to their respective grouping
     xAxisG.call(xAxis);
     yAxisG.call(yAxis);
 
-    const bars = g.selectAll('rect').data(data);
-
     // Generate bars for new data
+    const bars = g.selectAll('rect').data(data);
     bars.enter().append('rect');
 
     // Update
     bars
       .attr('class', 'graph-bar')
-      .attr('x', (d) => xScale(d[gp.xColumn]))
+      .attr('width', innerWidth / (data.length * 1.5))
+      .attr('x', (d) => {
+        return xScale(d[gp.xColumn] - innerWidth / data.length);
+      })
+      .attr('y', innerHeight)
+      .attr('height', 0)
+      .transition().duration(1000)
       .attr('y', (d) => yScale(d[gp.yColumn]))
-      .attr('width', xScale.rangeBand())
       .attr('height', (d) => innerHeight - yScale(d[gp.yColumn]));
 
     bars.exit().remove();
