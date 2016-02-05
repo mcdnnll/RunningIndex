@@ -1,5 +1,8 @@
 import React, {PropTypes} from 'react';
 import d3 from 'd3';
+import d3Tip from 'd3-tip';
+import moment from 'moment';
+
 const propTypes = {
   runData: PropTypes.array,
 };
@@ -41,12 +44,12 @@ class RunAvgGraph extends React.Component {
 
     const g = d3.select('g');
     const xAxisG = g.append('g')
-      .attr('class', 'x graph-axis')
+      .attr('class', 'x graph__axis')
       // Translate starting position of X axis
       .attr('transform', `translate(0, ${innerHeight})`);
 
     const yAxisG = g.append('g')
-      .attr('class', 'y graph-axis');
+      .attr('class', 'y graph__axis');
 
     // Scales must stay within graph's container
     const xScale = d3.time.scale()
@@ -71,13 +74,46 @@ class RunAvgGraph extends React.Component {
     xAxisG.call(xAxis);
     yAxisG.call(yAxis);
 
+    const svg = d3.select('svg');
+
+    // Add an x-axis label.
+    svg.append('text')
+      .attr('class', 'graph__x-label')
+      .attr('text-anchor', 'middle')
+      .attr('x', gp.width / 2)
+      .attr('y', gp.height - 5)
+      .text('Year (Month)');
+
+    // Add a y-axis label.
+    svg.append('text')
+      .attr('class', 'graph__y-label')
+      .attr('text-anchor', 'middle')
+      .attr('x', -(gp.height / 2))
+      .attr('y', 8)
+      .attr('dy', '.5em')
+      .attr('transform', 'rotate(-90)')
+      .text('Running Index (Average)');
+
+    // Apply tooltip
+    const tip = d3Tip()
+      .attr('class', 'graph__tooltip')
+      .offset([-10, 0])
+      .html((d) => {
+        const tooltipMonth = '<span class="graph__tooltip-title">' + moment(d[gp.xColumn]).format("MMM 'YY") + ': </span>';
+        const tooltipAvg = '<span class="graph__tooltip-value">' + Math.round(d[gp.yColumn]) + '</span>';
+        return tooltipMonth + tooltipAvg;
+      });
+    d3.select(this.refs.svg).call(tip);
+
     // Generate bars for new data
     const bars = g.selectAll('rect').data(data);
-    bars.enter().append('rect');
+    bars.enter().append('rect')
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
 
     // Update
     bars
-      .attr('class', 'graph-bar')
+      .attr('class', 'graph__bar')
       .attr('width', innerWidth / (data.length * 1.5))
       .attr('x', (d) => {
         return xScale(d[gp.xColumn] - innerWidth / data.length);
@@ -88,13 +124,14 @@ class RunAvgGraph extends React.Component {
       .attr('y', (d) => yScale(d[gp.yColumn]))
       .attr('height', (d) => innerHeight - yScale(d[gp.yColumn]));
 
+
     bars.exit().remove();
 
   }
 
   render() {
     return (
-      <svg className="runTotalsGraph"></svg>
+      <svg className="runTotalsGraph" ref="svg"></svg>
     );
   }
 }

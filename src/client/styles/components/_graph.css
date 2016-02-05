@@ -1,5 +1,5 @@
 
-.graph-container {
+.graph__container {
   background: $secondary-colour;
   border: 1px solid $border-colour;
   border-radius: 5px;
@@ -7,21 +7,62 @@
   margin-bottom: 20px;
 }
 
-.graph-axis text {
-  font-size: 0.9em;
+.graph__axis text {
+  font-size: 0.7em;
 }
 
-.graph-axis path,
-.graph-axis line {
+.graph__axis path,
+.graph__axis line {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
 }
 
-.graph-bar {
+.graph__bar {
   fill: $primary-colour;
 }
 
-.x {
-  font-size: 0.5em;
+.graph__x-label {
+  font-size: 0.7em;
+}
+
+.graph__y-label {
+  font-size: 0.7em;
+}
+
+.graph__tooltip-title {
+  font-weight: 400;
+  color: $secondary-colour;
+}
+
+.graph__tooltip-value {
+  font-weight: 400;
+  color: yellow;
+}
+
+.graph__tooltip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+.graph__tooltip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.7);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+.graph__tooltip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
 }
