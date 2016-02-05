@@ -60,7 +60,7 @@ class RunAvgGraph extends React.Component {
     const dateSeries = data.map((d) => d[gp.xColumn]);
 
     xScale.domain(dateSeries);
-    yScale.domain([0, d3.max(data, (d) => d[gp.yColumn])]);
+    yScale.domain([0, 100]);
 
     xAxisG.call(xAxis);
     yAxisG.call(yAxis);

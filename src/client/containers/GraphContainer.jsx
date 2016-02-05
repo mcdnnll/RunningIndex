@@ -43,7 +43,7 @@ class GraphContainer extends React.Component {
       width: 890,
       height: 450,
       margin: {
-        left: 35,
+        left: 40,
         top: 20,
         right: 20,
         bottom: 25,
@@ -71,7 +71,6 @@ class GraphContainer extends React.Component {
   }
 
   renderMonthlyAvgGraph() {
-
     const { monthlyAvg } = this.props;
 
     const graphProps = Object.assign({}, this.commonGraphProps(), {
