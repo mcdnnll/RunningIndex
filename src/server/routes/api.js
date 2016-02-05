@@ -5,6 +5,7 @@ const csvToJS = require('../utils/csvToJS');
 const dao = require('../dao');
 const errType = require('../utils/constants');
 
+// Retrieve complete dataset
 exports.getEntries = (req, res, next) => {
   logger.log('trace', 'getEntries(): Entered');
 
@@ -76,8 +77,8 @@ exports.createEntry = (req, res, next) => {
   } else {
     logger.log('trace', 'createEntry(): Validation & Security check succeeded');
 
+    // Store entry once it has been validated
     const entry = req.body;
-
     dao.storeEntry(entry)
       .then(() => res.status(http.CREATED).send())
       .catch((e) => next(e));
@@ -85,6 +86,7 @@ exports.createEntry = (req, res, next) => {
   logger.log('trace', 'createEntry(): Returning');
 };
 
+// Not yet accessible via API
 exports.uploadEntries = (req, res, next) => {
 
   // Convert csv file to JS objects
@@ -95,6 +97,7 @@ exports.uploadEntries = (req, res, next) => {
     .catch((e) => next(e));
 };
 
+// Used to populate RunSummary and RunTotal cards
 exports.getRunSummaries = (req, res, next) => {
 
   logger.log('trace', 'Retrieving run summaries');
@@ -105,6 +108,7 @@ exports.getRunSummaries = (req, res, next) => {
   const lifetimeRunTotal = dao.getLifetimeTotalData();
   const currentMonthAverage = dao.getCurrentMonthAverage();
 
+  // Wait for all DB calls to return before sending response to client
   Promise.all([runCountData, bestRunData, lifetimeRunTotal, currentMonthAverage])
     .then((runData) => {
       res.status(http.OK).send({
@@ -117,6 +121,8 @@ exports.getRunSummaries = (req, res, next) => {
     .catch((e) => next(e));
 };
 
+// Retrieve monthly average data
+// Used to populate bar chart on dashboard
 exports.getGraphData = (req, res, next) => {
 
   logger.log('trace', 'Retrieving graph data');
