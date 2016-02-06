@@ -13,7 +13,7 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('config');
 
-var webpackConfig = require('./config/webpack.config.js');
+var webpackDevConfig = require('./config/webpack.config.dev.js');
 
 require('babel-core/register');
 
@@ -35,8 +35,8 @@ var paths = {
 =            Client build tasks            =
 ==========================================*/
 
-gulp.task('client-build', function(done) {
-  webpack(require('./config/webpack.config.js')).run(function(err, stats) {
+gulp.task('client-dev', function(done) {
+  webpack(require('./config/webpack.config.dev.js')).run(function(err, stats) {
     if(err) console.log('Error', err);
     done();
     });
@@ -45,14 +45,14 @@ gulp.task('client-build', function(done) {
 gulp.task('dev', function() {
 
   // Override webpack path to fix dev-server path resolution (needs '/')
-  webpackConfig.output.path = '/' + config.dir.dist;
+  webpackDevConfig.output.path = '/' + config.dir.dist;
 
   // Start a webpack-dev-server
-  new WebpackDevServer(webpack(webpackConfig), {
+  new WebpackDevServer(webpack(webpackDevConfig), {
 
     // Public path required to properly proxy the bundle requests back to the express server
     // Must mirror the normal webpack public path
-    publicPath: webpackConfig.output.publicPath,
+    publicPath: webpackDevConfig.output.publicPath,
     stats: {
       noColors: true
     },
@@ -68,7 +68,6 @@ gulp.task('dev', function() {
       if(err) throw new gutil.PluginError("webpack-dev-server", err);
       gutil.log("[webpack-dev-server]", "http://localhost:" + config.ports.webpack + "/webpack-dev-server/");
   });
-
 });
 
 gulp.task('client-tests', function() {
@@ -79,7 +78,7 @@ gulp.task('client-tests', function() {
 });
 
 gulp.task('client-prod', function() {
-  var cmd = new run.Command('webpack --config ./config/webpack.config.js -p');
+  var cmd = new run.Command('NODE_ENV=production webpack --config ./config/webpack.config.prod.js -p');
   cmd.exec();
 });
 

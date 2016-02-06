@@ -9,9 +9,9 @@ var precss = require('precss');
 var rootDir = path.join(__dirname, '../');
 
 module.exports = {
-  debug: true,
   cache: true,
   context: rootDir,
+  devtool: 'cheap-module-source-map',
   entry: {
     app: [rootDir + config.dir.s_client + 'index'],
     styles: [rootDir + config.dir.s_styles + 'ri'],
@@ -45,6 +45,13 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('[name].css'),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.DefinePlugin({
+      'process.env': Object.keys(process.env).reduce(function(o, k) {
+        o[k] = JSON.stringify(process.env[k]);
+        return o;
+      }, {})
+    }),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
