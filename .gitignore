@@ -2,4 +2,5 @@
 /build
 /coverage
 /support
-
+/prod
+/logs

@@ -2,12 +2,13 @@ const config = require('config');
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const logger = require('../utils/logger');
+const logger = require('../utils/logger').dbLogger;
 
 const env = process.env.NODE_ENV || 'development';
 
 // Initialise db connection for current environment
-const dbConfig = config.db[env];
+const dbConfig = (env === 'development') ? config.db[env] : require('../../../prod/dbProd')[env];
+
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
   host: dbConfig.host,
   dialect: dbConfig.dialect,

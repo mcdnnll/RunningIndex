@@ -1,6 +1,6 @@
 const http = require('http-status-codes');
 const models = require('../models');
-const logger = require('../utils/logger');
+const logger = require('../utils/logger').appLogger;
 const csvToJS = require('../utils/csvToJS');
 const dao = require('../dao');
 const errType = require('../utils/constants');

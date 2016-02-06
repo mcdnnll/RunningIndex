@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 /**
  * Function to aggregate run count statistics for main dashboard
  * @param: {Object} t - object containing time intervals for aggregation

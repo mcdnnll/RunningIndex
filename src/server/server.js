@@ -4,7 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 const expressSanitizer = require('express-sanitizer');
-const logger = require('./utils/logger');
+const logger = require('./utils/logger').appLogger;
 
 const models = require('./models');
 const web = require('./routes/web');
@@ -24,26 +24,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
 app.use(expressSanitizer());
 
-// Set CORS to allow requests from webpack-dev-server
-app.use(cors({
-  origin: config.endpoints.webpack,
-  credentials: true,
-}));
-
 // Server static content
 app.use('/static', express.static('build/dist'));
 
 // Switch bundle paths when using webpack-dev-server
 // to allow proxying of the requests to real backendt
-if (process.env.NODE_ENV === 'development') {
-  app.set('staticPath', config.endpoints.static_dev);
+if (process.env.NODE_ENV === 'production') {
+  app.set('staticPath', config.endpoints.static);
+  app.use(cors({
+    origin: config.endpoints.web,
+    credentials: true,
+  }));
 } else {
   app.set('staticPath', config.endpoints.static);
+  // Set CORS to allow requests from webpack-dev-server
+  app.use(cors({
+    origin: config.endpoints.webpack,
+    credentials: true,
+  }));
 }
 
 // Init logging middleware
 app.use((req, res, next) => {
-  logger.log('info', 'HTTP %s %s', req.method, req.url);
+  logger.log('info', '%s %s %s', req.ip, req.method, req.url);
   next();
 });
 

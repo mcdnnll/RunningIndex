@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "webpack-dev": "webpack-dev-server --config ./config/webpack.config.js --inline --hot --progress --no-colors",
-    "client": "webpack --config ./config/webpack.config.js --progress --no-colors",
+    "wp-prod": "webpack --config ./config/webpack.config.js -p",
     "build": "babel src/server -d build/server && babel src/client -d build/client",
     "start": "babel-node ./build/server/server"
   },
@@ -25,7 +25,6 @@
     "http-status-codes": "^1.0.5",
     "immutable": "^3.7.5",
     "jade": "^1.11.0",
-    "lodash": "^3.10.1",
     "moment": "^2.11.0",
     "mysql": "^2.10.0",
     "pg": "^4.4.3",

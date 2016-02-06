@@ -1,6 +1,5 @@
-const _ = require('lodash');
 const models = require('../models');
-const logger = require('../utils/logger');
+const logger = require('../utils/logger').appLogger;
 const sql = require('../utils/preparedSql');
 const getTime = require('../utils/getTime');
 const prd = require('../utils/processRunData');
@@ -56,8 +55,6 @@ exports.getBestRunData = () => {
         thisYear: dbData[4][0] || defaultResult,
         lastYear: dbData[5][0] || defaultResult,
       };
-
-      console.log(bestRunSummary);
 
       logger.log('trace', 'getBestRunData(): Returning');
       return bestRunSummary;

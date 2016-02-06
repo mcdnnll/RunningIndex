@@ -78,6 +78,10 @@ gulp.task('client-tests', function() {
     .on('error', console.log);
 });
 
+gulp.task('client-prod', function() {
+  var cmd = new run.Command('webpack --config ./config/webpack.config.js -p');
+  cmd.exec();
+});
 
 /*==========================================
 =            Server build tasks            =
@@ -137,4 +141,8 @@ gulp.task('full-build', function(){
 gulp.task('load-db', function() {
   var cmd = new run.Command('node support/loadDBData.js');
   cmd.exec();
+});
+
+gulp.task('prod', function() {
+  runSequence('server-build', 'client-prod');
 });
