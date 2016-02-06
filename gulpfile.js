@@ -35,12 +35,6 @@ var paths = {
 =            Client build tasks            =
 ==========================================*/
 
-gulp.task('client-dev', function(done) {
-  webpack(require('./config/webpack.config.dev.js')).run(function(err, stats) {
-    if(err) console.log('Error', err);
-    done();
-    });
-});
 
 gulp.task('dev', function() {
 
@@ -77,8 +71,20 @@ gulp.task('client-tests', function() {
     .on('error', console.log);
 });
 
+gulp.task('client-dev', function(done) {
+  webpack(require('./config/webpack.config.dev.js')).run(function(err, stats) {
+    if(err) console.log('Error', err);
+    done();
+    });
+});
+
+gulp.task('client-dev2', function() {
+  var cmd = new run.Command('webpack --config ./config/webpack.config.dev.js');
+  cmd.exec();
+});
+
 gulp.task('client-prod', function() {
-  var cmd = new run.Command('NODE_ENV=production webpack --config ./config/webpack.config.prod.js -p');
+  var cmd = new run.Command('NODE_ENV="production" webpack --config ./config/webpack.config.prod.js -p');
   cmd.exec();
 });
 

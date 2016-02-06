@@ -8,10 +8,15 @@ import reducer from '../reducers';
 export const reduxRouter = syncHistory(browserHistory);
 const logger = createLogger();
 
-const createStoreWithMiddleWare = compose(
-  applyMiddleware(thunk, logger, reduxRouter)
-)(createStore);
+export default function configureStore(initialState) {
+  const store = createStore(
+    reducer,
+    initialState,
+    compose(
+      applyMiddleware(thunk, reduxRouter, logger)
+    )
+  );
+  reduxRouter.listenForReplays(store);
 
-export default function configuredStore(initialState) {
-  return createStoreWithMiddleWare(reducer, initialState);
+  return store;
 }
