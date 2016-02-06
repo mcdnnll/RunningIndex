@@ -45,26 +45,24 @@ if (process.env.NODE_ENV === 'production') {
   dbLogger.add(winston.transports.File, {
     name: 'dbInfo-file',
     filename: 'logs/dbLog-info.log',
-    colorize: true,
     timestamp: true,
     level: 'trace',
   });
   dbLogger.add(winston.transports.File, {
     name: 'dbError-file',
     filename: 'logs/dbLog-error.log',
-    colorize: true,
     timestamp: true,
     level: 'warn',
   });
 
 } else {
-  appLogger.add(winston.transports.Console)({
+  appLogger.add(winston.transports.Console, {
     colorize: true,
     timestamp: true,
     level: 'info',
   });
 
-  dbLogger.add(winston.transports.Console)({
+  dbLogger.add(winston.transports.Console, {
     colorize: true,
     timestamp: true,
     level: 'info',
