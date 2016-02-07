@@ -57,8 +57,11 @@ class RunAvgGraph extends React.Component {
       .domain(d3.extent(data, (d) => d[gp.xColumn]))
       .range([0, innerWidth]);
 
+    // Round to nearest 10 to correctly display labels on Y Axis
+    const upperYScale = Math.round(d3.max(data, (d) => d[gp.yColumn]) / 10) * 10;
+
     const yScale = d3.scale.linear()
-      .domain([0, 100])
+      .domain([50, upperYScale])
       .range([innerHeight, 0]);
 
     // Configure Axes

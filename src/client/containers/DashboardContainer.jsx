@@ -45,13 +45,13 @@ class DashboardContainer extends React.Component {
       <div>
         <Grid>
           <Column type="col-4-12">
-            <RunSummaryCard title="Run Count" runData={runCount} />
+            <RunSummaryCard title="Run Count Comparison" runData={runCount} />
           </Column>
           <Column type="col-4-12">
-            <RunSummaryCard title="Best Running Index" runData={bestRun} />
+            <RunSummaryCard title="Best RI Comparison" runData={bestRun} />
           </Column>
           <Column type="col-4-12">
-            <RunTotalCard title={currentMonthStr + ' Average'} runData={currentMonthAvg} />
+            <RunTotalCard title={'RI Average: ' + currentMonthStr} runData={currentMonthAvg} />
             <RunTotalCard title="Lifetime Run Total" runData={lifetimeTotal} />
           </Column>
         </Grid>

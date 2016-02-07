@@ -112,11 +112,11 @@ class RunSummaryCard extends React.Component {
         </div>
         <div className="summary-card__btn-group">
           <button className={'summary-card__btn summary-card__btn--left ' + this.checkIsActive('WEEK')}
-            onClick={this.handleViewChange.bind(this, 'WEEK')}>Week</button>
+            onClick={this.handleViewChange.bind(this, 'WEEK')}>Weekly</button>
           <button className={'summary-card__btn summary-card__btn--centre ' + this.checkIsActive('MONTH')}
-            onClick={this.handleViewChange.bind(this, 'MONTH')}>Month</button>
+            onClick={this.handleViewChange.bind(this, 'MONTH')}>Monthly</button>
           <button className={'summary-card__btn summary-card__btn--right ' + this.checkIsActive('YEAR')}
-            onClick={this.handleViewChange.bind(this, 'YEAR')}>Year</button>
+            onClick={this.handleViewChange.bind(this, 'YEAR')}>Yearly</button>
         </div>
         {renderActiveView}
       </div>
