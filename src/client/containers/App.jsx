@@ -25,6 +25,12 @@ class App extends React.Component {
   }
 
   handleRouteChange(nextRoute) {
+    // GA tracking between routes
+    if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
+      const title  = (nextRoute.length === 1) ? 'Dashboard' : 'Manage';
+      window.ga('set', { page: nextRoute, title: title });
+      window.ga('send', 'pageview');
+    }
     this.props.dispatch(routeActions.push(nextRoute));
   }
 
