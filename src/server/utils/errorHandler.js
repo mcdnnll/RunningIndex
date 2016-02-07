@@ -1,4 +1,4 @@
-const logger = require('./logger');
+const logger = require('./logger').appLogger;
 const errType = require('../utils/constants');
 
 module.exports = (err, req, res, next) => {
