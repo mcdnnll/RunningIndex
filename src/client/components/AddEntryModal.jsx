@@ -4,7 +4,9 @@ import AddEntryContainer from '../containers/AddEntryContainer';
 import Modal from 'react-modal';
 import { openModal, closeModal } from '../actions/uiActions';
 
-const propTypes = {};
+const propTypes = {
+  modalIsOpen: PropTypes.bool,
+};
 
 class AddEntryModal extends React.Component {
   constructor(props) {
@@ -16,17 +18,14 @@ class AddEntryModal extends React.Component {
   handleOpenModal() {
     const { dispatch } = this.props;
     dispatch(openModal());
-    // this.setState({modalIsOpen: true});
   }
 
   handleCloseModal() {
     const { dispatch } = this.props;
     dispatch(closeModal());
-    // this.setState({modalIsOpen: false});
   }
 
   render() {
-
     const customStyles = {
       overlay: {
         backgroundColor: 'rgba(214, 214, 214, 0.85)',
@@ -42,8 +41,8 @@ class AddEntryModal extends React.Component {
     };
 
     return (
-      <li className="nav__list nav__list--right">
-        <a className="nav__item nav__item--right" onClick={this.handleOpenModal}>+ Add</a>
+      <li className="nav__item">
+        <a className="nav__item-text" onClick={this.handleOpenModal}>+ Add RI</a>
         <Modal style={customStyles} isOpen={this.props.modalIsOpen} onRequestClose={this.handleCloseModal}>
             <AddEntryContainer handleCloseModal={this.handleCloseModal}/>
         </Modal>

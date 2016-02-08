@@ -1,35 +1,39 @@
 
 /* Block */
-.nav {
+nav {
   background: #FFFFFF;
   width: 100%;
 }
 
 .nav__row {
   font-size: 0;
+  width: 100%;
 }
 
-.nav__list--right {
-  float: right;
-}
-
+.nav__list--right,
 .nav__list {
   display: inline-block;
   vertical-align: bottom;
   font-size: 1rem;
+  text-align: center;
+}
+
+.nav__list--right {
+  margin-right: 45px;
+  float: right;
 }
 
 .nav__item {
   color: $primary-colour;
-  display: block;
+  float: left;
   font-weight: 400;
   padding: 20px;
-  text-decoration: none;
   transition: .2s;
 }
 
-.nav__item--right {
-  margin-right: 135px;
+.nav__item-text {
+  text-decoration: none;
+  color: inherit;
 }
 
 .nav__item:hover {
@@ -39,14 +43,19 @@
 }
 
 .nav__title {
+  display: inline-block;
+}
+
+.nav__title-text {
   color: $primary-colour;
-  display: block;
+  display: inline-block;
   float: left;
   font-size: 1.7rem;
   font-weight: 500;
   margin: 13px 20px 16px 20px;
   text-decoration: none;
   transition: .1s;
+
 }
 
 .nav__title:hover {
