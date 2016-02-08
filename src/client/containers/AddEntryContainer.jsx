@@ -5,6 +5,7 @@ import { postEntry } from '../actions/entryActions';
 
 const propTypes = {
   handleCloseModal: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 class AddEntryContainer extends React.Component {

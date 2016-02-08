@@ -10,6 +10,8 @@ import Spinner from '../components/Spinner';
 const propTypes = {
   dataset: PropTypes.array,
   monthlyAvg: PropTypes.array,
+  graphIsLoading: PropTypes.bool,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -38,8 +40,9 @@ class GraphContainer extends React.Component {
     this.setState({activeView: nextView});
   }
 
+  // Generate graph properties that are common to both bar and scatter charts
   commonGraphProps() {
-    const graphProps = {
+    return {
       width: 890,
       height: 450,
       margin: {
@@ -49,13 +52,13 @@ class GraphContainer extends React.Component {
         bottom: 35,
       },
     };
-
-    return graphProps;
   }
 
   renderTotalGraph() {
     const { dataset } = this.props;
 
+    // Add additional props to commonGraphProps that are unique to
+    // the scatter plot
     const graphProps = Object.assign({}, this.commonGraphProps(), {
       xColumn: 'date',
       yColumn: 'runningIndex',
@@ -73,6 +76,8 @@ class GraphContainer extends React.Component {
   renderMonthlyAvgGraph() {
     const { monthlyAvg } = this.props;
 
+    // Add additional props to commonGraphProps that are unique to
+    // the bar chart
     const graphProps = Object.assign({}, this.commonGraphProps(), {
       xColumn: 'date',
       yColumn: 'avg',

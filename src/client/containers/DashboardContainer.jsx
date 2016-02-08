@@ -9,6 +9,7 @@ import RunTotalCard from '../components/RunTotalCard';
 
 const propTypes = {
   dashboard: PropTypes.object,
+  dispatch: PropTypes.func.isRequired,
 };
 
 class DashboardContainer extends React.Component {

@@ -2,7 +2,6 @@ import * as types from '../constants/actionTypes';
 import request from 'superagent';
 import d3 from 'd3';
 
-
 /* RunSummary Actions */
 
 // Initiate workflow to request data for dashboard cards

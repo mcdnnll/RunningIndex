@@ -1,10 +1,12 @@
 import React, {PropTypes} from 'react';
 import moment from 'moment';
-import Spinner from './Spinner';
 
 const propTypes = {
   handleAddEntry: PropTypes.func.isRequired,
   handleCloseModal: PropTypes.func.isRequired,
+  addEntryPosted: PropTypes.bool,
+  addEntryFailed: PropTypes.bool,
+  addEntryResult: PropTypes.string,
 };
 
 class AddEntry extends React.Component {
@@ -14,11 +16,9 @@ class AddEntry extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  // Validate and extract inputs, notify user of any errors
+  // prior to posting to server
   handleSubmit() {
-
-    // Validate and extract inputs, notify user of any errors
-    // prior to posting to server
-
     const date = this.validateDate(this.refs.dateInput.value);
     if (date.error) {
       this.setState({error: date.error});
@@ -47,6 +47,7 @@ class AddEntry extends React.Component {
       this.setState({error: false});
     }
 
+    // Reset form values
     this.refs.indexInput.value = '';
     this.refs.locationInput.value = '';
     this.refs.dateInput.value = '';
@@ -124,7 +125,7 @@ class AddEntry extends React.Component {
   }
 
   render() {
-    const { addEntryPosted, addEntryFailed, addEntryResult} = this.props;
+    const { addEntryFailed, addEntryResult} = this.props;
 
     return (
       <div>
@@ -152,10 +153,8 @@ class AddEntry extends React.Component {
           <button className="addEntry__btn addEntry__btn--right" onClick={() => this.handleSubmit()}>Add</button>
           <button className="addEntry__btn addEntry__btn--left" onClick={this.props.handleCloseModal}>Cancel</button>
         </div>
-
         {this.state.error ? this.renderError(this.state.error) : null}
         {addEntryFailed ? this.renderError(addEntryResult) : null}
-
       </div>
     );
   }

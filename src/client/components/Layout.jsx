@@ -1,5 +1,7 @@
 import React from 'react';
 
+// Component wrappers for the underlying css grid
+
 export const Grid = (props) => {
   let gridStyle;
 

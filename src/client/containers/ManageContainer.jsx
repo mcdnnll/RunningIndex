@@ -1,13 +1,14 @@
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import { Grid, Column } from '../components/Layout';
-import { Table, Tr, Td, Thead, Th } from 'reactable';
+import { Table } from 'reactable';
 import { fetchDataset } from '../actions/entryActions';
 import Spinner from '../components/Spinner';
 
 const propTypes = {
   dataset: PropTypes.array,
   datasetIsLoading: PropTypes.bool,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
@@ -41,7 +42,6 @@ class ManageContainer extends React.Component {
     const upperPageLimit = Math.ceil(dataset.length / itemsPerPage);
 
     const tableColumns = [
-      {key: 'id', label: 'ID'},
       {key: 'tidyDate', label: 'Date'},
       {key: 'runningIndex', label: 'Running Index'},
       {key: 'location', label: 'Location'},
@@ -57,7 +57,7 @@ class ManageContainer extends React.Component {
               itemsPerPage={itemsPerPage}
               pageButtonLimit={upperPageLimit}
               sortable={true}
-              defaultSort={{column: 'id', direction: 'desc'}}
+              defaultSort={{column: 'date', direction: 'desc'}}
               filterable={['date', 'location', 'runningIndex']}
             />
           </Column>

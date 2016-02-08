@@ -5,6 +5,7 @@ import moment from 'moment';
 
 const propTypes = {
   runData: PropTypes.array,
+  graphProps: PropTypes.object,
 };
 
 const defaultProps = {};
@@ -20,6 +21,7 @@ class RunAvgGraph extends React.Component {
     this.renderGraph(graphProps, runData);
   }
 
+  // After initial render allow D3 to manage DOM updates instead of React
   shouldComponentUpdate(props) {
     const { graphProps, runData} = props;
     this.renderGraph(graphProps, runData);

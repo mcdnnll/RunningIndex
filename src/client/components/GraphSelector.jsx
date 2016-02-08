@@ -13,7 +13,7 @@ class GraphSelector extends React.Component {
     super(props);
   }
 
-  // Append active class to button on selection
+  // Append active class to button on selection to apply css styling
   checkIsActive(selectedView) {
     if (this.props.currentView === selectedView) {
       return 'selector__btn--active';

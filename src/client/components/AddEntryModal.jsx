@@ -41,8 +41,8 @@ class AddEntryModal extends React.Component {
     };
 
     return (
-      <li className="nav__item">
-        <a className="nav__item-text" onClick={this.handleOpenModal}>+ Add RI</a>
+      <li className="nav__item" onClick={this.handleOpenModal}>
+        <a className="nav__item-text">+ Add RI</a>
         <Modal style={customStyles} isOpen={this.props.modalIsOpen} onRequestClose={this.handleCloseModal}>
             <AddEntryContainer handleCloseModal={this.handleCloseModal}/>
         </Modal>

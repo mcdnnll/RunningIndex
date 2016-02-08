@@ -6,6 +6,7 @@ import d3Tip from 'd3-tip';
 const propTypes = {
   runData: PropTypes.array,
   handleTransitionEnd: PropTypes.func,
+  graphProps: PropTypes.object,
 };
 
 const defaultProps = {
@@ -23,6 +24,7 @@ class RunTotalsGraph extends React.Component {
     this.renderGraph(graphProps, runData);
   }
 
+  // After initial render allow D3 to manage DOM updates instead of React
   shouldComponentUpdate(props) {
     const { graphProps, runData} = props;
     this.renderGraph(graphProps, runData);

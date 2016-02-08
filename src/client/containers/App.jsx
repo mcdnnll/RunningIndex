@@ -7,6 +7,7 @@ import { fetchDataset } from '../actions/entryActions';
 
 const propTypes = {
   dataset: PropTypes.array,
+  dispatch: PropTypes.func.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(React.PropTypes.node),
     PropTypes.node,
@@ -27,7 +28,7 @@ class App extends React.Component {
   handleRouteChange(nextRoute) {
     // GA tracking between routes
     if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
-      const title  = (nextRoute.length === 1) ? 'Dashboard' : 'Manage';
+      const title = (nextRoute.length === 1) ? 'Dashboard' : 'Manage';
       window.ga('set', { page: nextRoute, title: title });
       window.ga('send', 'pageview');
     }
@@ -66,7 +67,7 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     dataset: state.dataset,
   };
