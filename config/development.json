@@ -7,7 +7,6 @@
     "server": "build/server/",
     "styles": "build/client/styles/",
     "scripts": "scripts/",
-    // Src paths
     "s_client": "src/client/",
     "s_styles": "src/client/styles/",
     "utils": "build/server/utils"

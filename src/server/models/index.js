@@ -4,7 +4,9 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const logger = require('../utils/logger').dbLogger;
 
-const env = process.env.NODE_ENV || 'development';
+// Startup check to ensure env variables have been configured
+require('../utils/startupCheck')();
+const env = process.env.NODE_ENV;
 
 // Initialise db connection for current environment
 const dbConfig = (env === 'development') ? config.db[env] : require('../../../prod/dbProd')[env];

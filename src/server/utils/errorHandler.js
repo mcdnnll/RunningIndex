@@ -1,6 +1,10 @@
 const logger = require('./logger').appLogger;
 const errType = require('../utils/constants');
 
+/**
+ * Middleware to handle requests that contain errors
+ * or result in a server-side error.
+ */
 module.exports = (err, req, res, next) => {
 
   logger.log('warn', err);

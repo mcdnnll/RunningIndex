@@ -1,11 +1,15 @@
 const http = require('http-status-codes');
-const models = require('../models');
 const logger = require('../utils/logger').appLogger;
-const csvToJS = require('../utils/csvToJS');
-const dao = require('../dao');
+const dao = require('../dao/dao');
 const errType = require('../utils/constants');
 
-// Retrieve complete dataset
+
+ /**
+ * GET /api/entries
+ * Retrieve complete dataset.
+ *
+ * @return {array} of entry objects on success
+ */
 exports.getEntries = (req, res, next) => {
   logger.log('trace', 'getEntries(): Entered');
 
@@ -16,10 +20,24 @@ exports.getEntries = (req, res, next) => {
   logger.log('trace', 'getEntries(): Returning');
 };
 
+
+/**
+ * POST /api/entries
+ * Creates and stores a new running index entry.
+ *
+ * Perform sanitisation and validation of inputs prior to
+ * storing in DB. Expects that the request body will contain:
+ * @param: {String} date - ISO date string for the entry
+ * @param: {Integer} runningIndex - value between 1 and 100
+ * @param: {String} securityToken - required to authorise entry, must match local env.
+ * @param: {String} location [optional]
+ *
+ * @return {void} a 201 status is sent to the client on success
+ */
 exports.createEntry = (req, res, next) => {
   logger.log('trace', 'createEntry(): Entered');
 
-  // Sanitize
+  // Sanitize user input
   req.body.date = req.sanitize(req.body.date).trim();
   req.body.runningIndex = req.sanitize(req.body.runningIndex).trim();
   req.body.securityToken = req.sanitize(req.body.securityToken).trim();
@@ -29,7 +47,7 @@ exports.createEntry = (req, res, next) => {
     req.body.location = req.sanitize(req.body.location).trim();
   }
 
-  // Validate
+  // Validate user inputs
   req.checkBody({
     date: {
       notEmpty: true,
@@ -52,10 +70,11 @@ exports.createEntry = (req, res, next) => {
     },
   });
 
+  // Collect any errors from the validation process
   const validationErrors = req.validationErrors();
 
-  // Short-ciruit request where incorrect security token is provided
-  // or validation error were found
+  // Short-circuit request where incorrect security token is provided
+  // or validation errors were found
   if (req.body.securityToken !== process.env.SECURITY_TOKEN) {
     const err = {
       type: errType.INVALID_SECURITY_TOKEN,
@@ -86,18 +105,13 @@ exports.createEntry = (req, res, next) => {
   logger.log('trace', 'createEntry(): Returning');
 };
 
-// Not yet accessible via API
-exports.uploadEntries = (req, res, next) => {
 
-  // Convert csv file to JS objects
-  const entryPath = '../../../support/runningindex.csv';
-  csvToJS(entryPath)
-    .then((parsedEntries) => models.Entry.bulkCreate(parsedEntries))
-    .then(() => res.status(http.OK).send())
-    .catch((e) => next(e));
-};
-
-// Used to populate RunSummary and RunTotal cards
+ /**
+ * GET /api/dashboard/summary
+ * Retrieves data used for populating the dashboard's summary card components
+ *
+ * @return {Object}
+ */
 exports.getRunSummaries = (req, res, next) => {
 
   logger.log('trace', 'Retrieving run summaries');
@@ -121,8 +135,13 @@ exports.getRunSummaries = (req, res, next) => {
     .catch((e) => next(e));
 };
 
-// Retrieve monthly average data
-// Used to populate bar chart on dashboard
+
+ /**
+ * GET /api/dashboard/graph
+ * Retrieves data used for populating the dashboard's average bar chart
+ *
+ * @return {Object}
+ */
 exports.getGraphData = (req, res, next) => {
 
   logger.log('trace', 'Retrieving graph data');

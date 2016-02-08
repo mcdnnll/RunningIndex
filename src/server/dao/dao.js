@@ -4,6 +4,13 @@ const sql = require('../utils/preparedSql');
 const getTime = require('../utils/getTime');
 const prd = require('../utils/processRunData');
 
+
+ /**
+ * Function to retrieve run count data from the DB and calculate
+ * run totals for the current time period.
+ *
+ * @return {Object}
+ */
 exports.getRunCountData = () => {
 
   logger.log('trace', 'getRunCountData(): Starting exec');
@@ -26,13 +33,19 @@ exports.getRunCountData = () => {
     });
 };
 
+
+ /**
+ * Function to retrieve best run indexes from the DB for the current and previous
+ * time periods (weekly, monthly and yearly intervals).
+ *
+ * @return {Object}
+ */
 exports.getBestRunData = () => {
 
   logger.log('trace', 'getBestRunData(): Starting exec');
   const db = models.sequelize;
 
   // TODO: Optimise sql queries
-  // Alternative: query on individual date fields and concatenate dates client side
   const q1 = db.query(sql.getBestRunThisWeek, {model: db.Entries}).spread((results) => results);
   const q2 = db.query(sql.getBestRunLastWeek, {model: db.Entries}).spread((results) => results);
   const q3 = db.query(sql.getBestRunThisMonth, {model: db.Entries}).spread((results) => results);
@@ -44,7 +57,7 @@ exports.getBestRunData = () => {
     .then((dbData) => {
 
       // Handle case where no run data is available for a certain time period
-      // Allows for consistency on the client
+      // Set default to provide consistency on the client
       const defaultResult = {value: 0, date: 0};
 
       const bestRunSummary = {
@@ -64,6 +77,12 @@ exports.getBestRunData = () => {
     });
 };
 
+
+ /**
+ * Function to retrieve the total count of runs within the DB.
+ *
+ * @return {Integer}
+ */
 exports.getLifetimeTotalData = () => {
 
   logger.log('trace', 'getRunTotalData(): Starting exec');
@@ -79,6 +98,12 @@ exports.getLifetimeTotalData = () => {
     });
 };
 
+
+ /**
+ * Function to retrieve the complete dataset from the DB.
+ *
+ * @return {Array}
+ */
 exports.getAllEntries = () => {
 
   logger.log('trace', 'getAllEntries(): Starting exec');
@@ -95,6 +120,12 @@ exports.getAllEntries = () => {
   });
 };
 
+
+ /**
+ * Function to retrieve the aggregate monthly running index average from the DB.
+ *
+ * @return {Array}
+ */
 exports.getAnnualMonthlyRIAvg = () => {
 
   logger.log('trace', 'getAnnualMonthlyAvg(): Starting exec');
@@ -110,6 +141,13 @@ exports.getAnnualMonthlyRIAvg = () => {
     });
 };
 
+
+ /**
+ * Function to store a newly created running index entry.
+ * @param: {Object} entry - contains validated date, running index and location
+ *
+ * @return {void}
+ */
 exports.storeEntry = (entry) => {
 
   logger.log('trace', 'storeEntry(): Starting exec');
@@ -121,6 +159,12 @@ exports.storeEntry = (entry) => {
   });
 };
 
+
+ /**
+ * Function to retrieve the current month's running index average
+ *
+ * @return {Integer}
+ */
 exports.getCurrentMonthAverage = () => {
 
   logger.log('trace', 'getCurrentMonthAverage(): Starting exec');

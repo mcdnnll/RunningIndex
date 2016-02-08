@@ -21,10 +21,15 @@ const loggerConfig = {
   },
 };
 
-// Initialise loggers
+// Initialise seperate loggers for app and DB
 const appLogger = new winston.Logger(loggerConfig);
 const dbLogger = new winston.Logger(loggerConfig);
 
+/**
+ * Production logging will be output to file, with seperate
+ * log files for general operation and errors.
+ * Development logging will be output to console only.
+ */
 if (process.env.NODE_ENV === 'production') {
 
   // Add application loggers

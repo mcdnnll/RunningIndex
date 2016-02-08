@@ -29,7 +29,7 @@ module.exports = {
   module: {
     loaders: [
       // Core loaders
-      { test: /\.jsx?$/, exclude: /node_modules/, loaders: ['babel-loader'] },
+      { test: /\.jsx?$/, exclude: [/node_modules/, /src\/client\/test/], loaders: ['babel-loader'] },
       { test: /\.html$/, loader: 'file?name=[name].[ext]' },
       { test: /\.css$/, loaders: ["style-loader", "css-loader", "postcss-loader"] },
     ],

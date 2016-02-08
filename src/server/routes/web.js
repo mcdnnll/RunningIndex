@@ -1,4 +1,3 @@
-// const renderToString = require('react-dom/server');
 
 /*=====================================
 =            Index: GET '/'           =
