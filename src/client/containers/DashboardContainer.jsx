@@ -28,7 +28,7 @@ class DashboardContainer extends React.Component {
 
   renderSummaryCards() {
     const currentTime = moment.now();
-    const currentMonthStr = moment(currentTime).format('MMMM YYYY');
+    const currentMonthStr = moment(currentTime).format('MMM YYYY');
 
     const {runCount, bestRun, lifetimeTotal } = this.props.dashboard;
 
@@ -49,10 +49,10 @@ class DashboardContainer extends React.Component {
             <RunSummaryCard title="Run Count Comparison" runData={runCount} />
           </Column>
           <Column type="col-4-12">
-            <RunSummaryCard title="Best RI Comparison" runData={bestRun} />
+            <RunSummaryCard title="Best Index Comparison" runData={bestRun} />
           </Column>
           <Column type="col-4-12">
-            <RunTotalCard title={'RI Average: ' + currentMonthStr} runData={currentMonthAvg} />
+            <RunTotalCard title={'Average Index: ' + currentMonthStr} runData={currentMonthAvg} />
             <RunTotalCard title="Lifetime Run Total" runData={lifetimeTotal} />
           </Column>
         </Grid>
