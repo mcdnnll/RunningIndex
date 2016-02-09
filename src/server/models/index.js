@@ -8,8 +8,16 @@ const logger = require('../utils/logger').dbLogger;
 require('../utils/startupCheck')();
 const env = process.env.NODE_ENV;
 
-// Initialise db connection for current environment
+/**
+ * Initialise db connection for current environment
+ * When running in production provide path to private DB configuration settings if not using
+ * node-config. If using node-config lib, provide settings in config/production.json and
+ * comment out the following line.
+ */
 const dbConfig = (env === 'development') ? config.db[env] : require('../../../prod/dbProd')[env];
+
+// Uncomment line below if using node-config
+// const dbConfig = config.db[env];
 
 const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
   host: dbConfig.host,

@@ -7,7 +7,6 @@
     "server": "build/server/",
     "styles": "build/client/styles/",
     "scripts": "scripts/",
-    // Src paths
     "s_client": "src/client/",
     "s_styles": "src/client/styles/",
     "utils": "build/server/utils"
@@ -23,14 +22,15 @@
     "web": 9000,
     "webpack": 9001
   },
+  // Input private DB settings here
   "db": {
-    "development": {
-      "username": "MBP",
+    "production": {
+      "username": "",
       "password": "",
-      "database": "ri",
-      "host": "localhost",
-      "dialect": "postgres",
-      "timezone": "+11:00"
+      "database": "",
+      "host": "",
+      "dialect": "",
+      "timezone": ""
     }
   }
 }

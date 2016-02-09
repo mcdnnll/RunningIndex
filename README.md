@@ -12,7 +12,7 @@ A web app to record and track Polar running indexes.
 A close family member is an avid runner and uses a Polar sports watch to track their running progress. While Polar do provide a client dashboard that tracks all running metrics, their presentation of running index data is not as insightful. Given this, the primary function of the app is to present the running index data in a more relevant and meaningful way.
 
 ##### What is a running index?
-A proprietary score that Polar calculates at the end of each run based on heart rate and run speed data. The index is indicative of overall performance for a given run, allowing a runner to track their relative performance.
+A proprietary score (between 0 and 100) that Polar calculates at the end of each run based on heart rate and run speed data. The index is indicative of overall performance for a given run, allowing a runner to track their relative performance.
 
 
 ### Tech stack
