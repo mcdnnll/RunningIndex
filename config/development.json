@@ -1,4 +1,4 @@
-// Project config variables and common paths
+// Update DB variables below before using
 {
   "dir": {
     "root": "",

@@ -1,4 +1,4 @@
-// Project config variables and common paths
+// Input private DB settings below
 {
   "dir": {
     "root": "",
@@ -22,7 +22,6 @@
     "web": 9000,
     "webpack": 9001
   },
-  // Input private DB settings here
   "db": {
     "production": {
       "username": "",
