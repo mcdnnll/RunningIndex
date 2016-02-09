@@ -51,6 +51,8 @@ class GraphContainer extends React.Component {
         right: 20,
         bottom: 35,
       },
+      xColumn: 'date',
+      barPadding: 0.1,
     };
   }
 
@@ -59,11 +61,8 @@ class GraphContainer extends React.Component {
 
     // Add additional props to commonGraphProps that are unique to
     // the scatter plot
-    const graphProps = Object.assign({}, this.commonGraphProps(), {
-      xColumn: 'date',
-      yColumn: 'runningIndex',
-      barPadding: 0.1,
-    });
+    const graphProps = this.commonGraphProps();
+    graphProps.yColumn = 'runningIndex';
 
     return (
       <RunTotalsGraph
@@ -78,11 +77,8 @@ class GraphContainer extends React.Component {
 
     // Add additional props to commonGraphProps that are unique to
     // the bar chart
-    const graphProps = Object.assign({}, this.commonGraphProps(), {
-      xColumn: 'date',
-      yColumn: 'avg',
-      barPadding: 0.1,
-    });
+    const graphProps = this.commonGraphProps();
+    graphProps.yColumn = 'avg';
 
     return (
       <RunAvgGraph
