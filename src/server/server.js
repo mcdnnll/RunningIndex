@@ -71,7 +71,7 @@ models.sequelize.sync().then((res, err) => {
     throw new Error(err);
   }
 
-  app.listen(config.ports.web, 'localhost', () => {
+  app.listen(config.ports.web, '0.0.0.0', () => {
     logger.log('info', 'Web Server running @ ' + config.endpoints.web + ' ' + config.ports.web);
   });
 });

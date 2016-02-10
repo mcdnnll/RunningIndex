@@ -1,6 +1,6 @@
 
 * {
-  font-family: Avenir Next;
+  font-family: $font-family;
 }
 
 h1 {

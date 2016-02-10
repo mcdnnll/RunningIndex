@@ -82,24 +82,3 @@
   font-size: 0.6em;
   font-weight: 400;
 }
-
-
-/*.summary-card__input--text{
-  font-family: inherit;
-  border: 1px solid #999;
-  border-radius: 5px;
-  margin: 5px;
-  padding: 5px;
-}
-
-.summary-card__input--date {
-  font-family: inherit;
-  border: 1px solid #999;
-  border-radius: 5px;
-  margin: 5px;
-  padding: 5px;
-}
-*/
-.summary-card--tile {
-
-}

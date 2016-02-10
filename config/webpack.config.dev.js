@@ -13,7 +13,7 @@ module.exports = {
   context: rootDir,
   devtool: 'cheap-module-source-map',
   entry: {
-    app: [rootDir + config.dir.s_client + 'index'],
+    app: ['babel-polyfill', rootDir + config.dir.s_client + 'index'],
     styles: [rootDir + config.dir.s_styles + 'ri'],
     devServer: 'webpack-dev-server/client?http://0.0.0.0:9001',
   },
