@@ -10,5 +10,5 @@ html(lang='en')
     include partials/analytics
   body
     #app!= content
-    script(src=locals.staticpath+"/styles.bundle.js" async)
+    script(src!=styles async)
     script(src!=bundle async)

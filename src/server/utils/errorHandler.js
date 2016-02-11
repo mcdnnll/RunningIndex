@@ -16,6 +16,9 @@ module.exports = (err, req, res, next) => {
     case errType.INVALID_INPUT:
       res.status(400).send({error: err.message});
       break;
+    case errType.STATIC_RESOURCE_ERROR:
+      res.status(500).send({error: err.message});
+      break;
     default:
       res.status(500).send({error: err.message});
   }

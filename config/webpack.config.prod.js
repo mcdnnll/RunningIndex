@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var config = require('config');
 var autoprefixer = require('autoprefixer');
 var precss = require('precss');
+var AssetsPlugin = require('assets-webpack-plugin');
 
 var rootDir = path.join(__dirname, '../');
 
@@ -17,7 +18,7 @@ module.exports = {
   output: {
     path: config.dir.dist,
     publicPath: config.endpoints.static + '/',
-    filename: '[name].bundle.js',
+    filename: '[name].[hash].bundle.js',
   },
 
   resolve: {
@@ -39,6 +40,11 @@ module.exports = {
   },
 
   plugins: [
+    new AssetsPlugin({
+      path: config.dir.dist,
+      fullPath: false,
+      filename: 'bundles.json',
+    }),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     new webpack.DefinePlugin({
       'process.env': Object.keys(process.env).reduce(function(o, k) {
