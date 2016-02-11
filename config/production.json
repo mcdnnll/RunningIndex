@@ -6,7 +6,6 @@
     "dist": "build/dist/",
     "server": "build/server/",
     "styles": "build/client/styles/",
-    "scripts": "scripts/",
     "s_client": "src/client/",
     "s_styles": "src/client/styles/",
     "utils": "build/server/utils"
