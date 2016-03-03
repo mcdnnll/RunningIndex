@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
     credentials: true,
   }));
 } else {
-  app.set('staticPath', config.endpoints.static);
+  app.set('staticPath', '/static');
   app.use(cors({
     origin: config.endpoints.webpack,
     credentials: true,
