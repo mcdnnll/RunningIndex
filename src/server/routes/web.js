@@ -26,7 +26,7 @@ exports.index = (req, res, next) => {
       res.render('index', {
         title: 'RunningIndex',
         bundle: staticpath + '/' + bundleNames.app.js,
-        styles: staticpath + '/' + bundleNames.styles.js,
+        styles: staticpath + '/' + bundleNames.styles.css,
         staticpath: staticpath,
       });
     }
