@@ -35,7 +35,7 @@ module.exports = {
       // Core loaders
       { test: /\.jsx?$/, exclude: /node_modules/, loaders: ['react-hot', 'babel-loader'] },
       { test: /\.html$/, loader: 'file?name=[name].[ext]' },
-      { test: /\.css$/, loaders: ["style-loader", "css-loader", "postcss-loader"] },
+      { test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader") },
     ],
   },
 
@@ -44,7 +44,7 @@ module.exports = {
   },
 
   plugins: [
-    new ExtractTextPlugin('[name].css'),
+    new ExtractTextPlugin('[name].[hash].css'),
     new AssetsPlugin({
       path: config.dir.dist,
       fullPath: false,

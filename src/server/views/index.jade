@@ -7,8 +7,8 @@ html(lang='en')
     link(rel="icon" type="image/png" href=locals.staticpath+"/favicon-32x32.png" sizes="32x32")
     link(rel="icon" type="image/png" href=locals.staticpath+"/favicon-16x16.png" sizes="16x16")
     link(type='text/css' href='https://fonts.googleapis.com/css?family=Lato:400,700,300&subset=latin-ext' rel='stylesheet')
+    link(href!=styles, rel='stylesheet')
     include partials/analytics
   body
     #app!= content
-    script(src!=styles async)
     script(src!=bundle async)
