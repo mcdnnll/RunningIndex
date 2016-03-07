@@ -58,9 +58,9 @@ gulp.task('dev', function() {
       '*': 'http://localhost:9000'
     }
   }
-    ).listen(config.ports.webpack, "localhost", function(err) {
+    ).listen(config.ports.webpack, "0.0.0.0", function(err) {
       if(err) throw new gutil.PluginError("webpack-dev-server", err);
-      gutil.log("[webpack-dev-server]", "http://localhost:" + config.ports.webpack + "/webpack-dev-server/");
+      gutil.log("[webpack-dev-server]", "http://0.0.0.0:" + config.ports.webpack + "/webpack-dev-server/");
   });
 });
 

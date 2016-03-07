@@ -32,7 +32,7 @@ class RunTotalsGraph extends React.Component {
   }
 
   initGraph(gp) {
-    d3.select('svg')
+    d3.select('.runTotalsGraph')
       .attr('width', gp.width)
       .attr('height', gp.height)
       .append('g')
@@ -75,7 +75,7 @@ class RunTotalsGraph extends React.Component {
     xAxisG.call(xAxis);
     yAxisG.call(yAxis);
 
-    const svg = d3.select('svg');
+    const svg = d3.select('.runTotalsGraph');
 
         // Add an x-axis label.
     svg.append('text')
@@ -104,7 +104,7 @@ class RunTotalsGraph extends React.Component {
         const tooltipAvg = '<span class="graph__tooltip-value">' + Math.round(d[gp.yColumn]) + '</span>';
         return tooltipMonth + tooltipAvg;
       });
-    d3.select(this.refs.svg).call(tip);
+    d3.select(this.refs.runTotalsGraph).call(tip);
 
     const scatter = g.selectAll('dot').data(data);
 
@@ -127,7 +127,7 @@ class RunTotalsGraph extends React.Component {
 
   render() {
     return (
-      <svg className="runTotalsGraph" ref="svg"></svg>
+      <svg className="runTotalsGraph" ref="runTotalsGraph"></svg>
     );
   }
 }
