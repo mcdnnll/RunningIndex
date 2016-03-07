@@ -37,6 +37,12 @@ export default function entries(state = {}, action) {
         error: action.payload.error,
       });
 
+    case types.CLEAR_SUBMISSION_RESULT:
+      return Object.assign({}, state, {
+        addEntryFailed: false,
+        addEntryResult: '',
+      });
+
     default:
       return state;
   }

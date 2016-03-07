@@ -4,6 +4,7 @@ import d3 from 'd3';
 import moment from 'moment';
 import { fetchRunSummaryData, fetchGraphData } from './dashboardActions';
 import { closeModal } from './uiActions';
+import analytics from '../utils/analytics';
 
 /* Create new entry actions */
 
@@ -33,6 +34,13 @@ export function createEntryFailed(error) {
   };
 }
 
+export function clearSubmissionResult() {
+  return {
+    type: types.CLEAR_SUBMISSION_RESULT,
+    payload: {},
+  };
+}
+
 // Action creator to create and post a new entry
 export function postEntry(newEntry) {
   return dispatch => {
@@ -40,6 +48,11 @@ export function postEntry(newEntry) {
     // Update App state to indicate a new entry is being created
     // Trigger UI spinner while XHR call completes
     dispatch(createEntry());
+    analytics.trackEvent({
+      category: 'addIndex',
+      action: 'submitStart',
+      label: 'Submit new entry index',
+    });
 
     // Post new entry to backend and dispatch action based on result
     request
@@ -49,9 +62,19 @@ export function postEntry(newEntry) {
         if (err) {
           // Use server error message instead of default HTTP error
           const errObj = JSON.parse(res.text);
+          analytics.trackEvent({
+            category: 'addIndex',
+            action: 'submitFailed',
+            label: 'Submit new entry failed',
+          });
+
           dispatch(createEntryFailed(errObj.error));
         } else {
-
+          analytics.trackEvent({
+            category: 'addIndex',
+            action: 'submitSuccess',
+            label: 'Submit new entry succeeded',
+          });
           dispatch(closeModal());
 
           // Re-fetch all data and refresh UI
