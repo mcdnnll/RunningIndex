@@ -45,14 +45,16 @@ class DashboardContainer extends React.Component {
     return (
       <div>
         <Grid>
-          <Column type="col-4-12">
+          <Column type="col-4-12 tablet-col-6-12 mobile-1-1">
             <RunSummaryCard title="Run Count Comparison" runData={runCount} />
           </Column>
-          <Column type="col-4-12">
+          <Column type="col-4-12 tablet-col-6-12 mobile-1-1">
             <RunSummaryCard title="Best Index Comparison" runData={bestRun} />
           </Column>
-          <Column type="col-4-12">
+          <Column type="col-4-12 tablet-col-6-12 mobile-1-1">
             <RunTotalCard title={'Average Index: ' + currentMonthStr} runData={currentMonthAvg} />
+          </Column>
+          <Column type="col-4-12 tablet-col-6-12 mobile-1-1">
             <RunTotalCard title="Lifetime Run Total" runData={lifetimeTotal} />
           </Column>
         </Grid>

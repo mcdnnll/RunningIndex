@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 import AddEntryContainer from '../containers/AddEntryContainer';
 import Modal from 'react-modal';
 import { openModal, closeModal } from '../actions/uiActions';
+import { clearSubmissionResult } from '../actions/entryActions';
+import analytics from '../utils/analytics';
 
 const propTypes = {
   modalIsOpen: PropTypes.bool,
+  toggleMenu: PropTypes.func,
+  dispatch: PropTypes.func,
 };
 
 class AddEntryModal extends React.Component {
@@ -17,12 +21,24 @@ class AddEntryModal extends React.Component {
 
   handleOpenModal() {
     const { dispatch } = this.props;
+    analytics.trackEvent({
+      category: 'addIndex',
+      action: 'openModal',
+      label: 'Open Add Index Modal',
+    });
+    this.props.toggleMenu();
     dispatch(openModal());
   }
 
   handleCloseModal() {
     const { dispatch } = this.props;
+    analytics.trackEvent({
+      category: 'addIndex',
+      action: 'closeModal',
+      label: 'Close Add Index Modal',
+    });
     dispatch(closeModal());
+    dispatch(clearSubmissionResult());
   }
 
   render() {

@@ -29,7 +29,7 @@ class RunAvgGraph extends React.Component {
   }
 
   initGraph(gp) {
-    d3.select('svg')
+    d3.select('.runAvgGraph')
       .attr('width', gp.width)
       .attr('height', gp.height)
 
@@ -81,10 +81,10 @@ class RunAvgGraph extends React.Component {
     xAxisG.call(xAxis);
     yAxisG.call(yAxis);
 
-    const svg = d3.select('svg');
+    const graph = d3.select('.runAvgGraph');
 
     // Add an x-axis label.
-    svg.append('text')
+    graph.append('text')
       .attr('class', 'graph__x-label')
       .attr('text-anchor', 'middle')
       .attr('x', gp.width / 2)
@@ -92,7 +92,7 @@ class RunAvgGraph extends React.Component {
       .text('Year (Month)');
 
     // Add a y-axis label.
-    svg.append('text')
+    graph.append('text')
       .attr('class', 'graph__y-label')
       .attr('text-anchor', 'middle')
       .attr('x', -(gp.height / 2))
@@ -110,7 +110,7 @@ class RunAvgGraph extends React.Component {
         const tooltipAvg = '<span class="graph__tooltip-value">' + Math.round(d[gp.yColumn]) + '</span>';
         return tooltipMonth + tooltipAvg;
       });
-    d3.select(this.refs.svg).call(tip);
+    d3.select(this.refs.runAvgGraph).call(tip);
 
     // Generate bars for new data
     const bars = g.selectAll('rect').data(data);
@@ -137,7 +137,7 @@ class RunAvgGraph extends React.Component {
 
   render() {
     return (
-      <svg className="runTotalsGraph" ref="svg"></svg>
+      <svg className="runAvgGraph" ref="runAvgGraph"></svg>
     );
   }
 }

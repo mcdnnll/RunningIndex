@@ -4,6 +4,7 @@ import { Column, Grid } from '../components/Layout';
 import { connect } from 'react-redux';
 import { routeActions } from 'react-router-redux';
 import { fetchDataset } from '../actions/entryActions';
+import analytics from '../utils/analytics';
 
 const propTypes = {
   dataset: PropTypes.array,
@@ -26,12 +27,7 @@ class App extends React.Component {
   }
 
   handleRouteChange(nextRoute) {
-    // GA tracking between routes
-    if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
-      const title = (nextRoute.length === 1) ? 'Dashboard' : 'Manage';
-      window.ga('set', { page: nextRoute, title: title });
-      window.ga('send', 'pageview');
-    }
+    analytics.trackRoute(nextRoute);
     this.props.dispatch(routeActions.push(nextRoute));
   }
 

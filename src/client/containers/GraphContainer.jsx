@@ -6,6 +6,7 @@ import RunTotalsGraph from '../components/RunTotalsGraph';
 import RunAvgGraph from '../components/RunAvgGraph';
 import GraphSelector from '../components/GraphSelector';
 import Spinner from '../components/Spinner';
+import analytics from '../utils/analytics';
 
 const propTypes = {
   dataset: PropTypes.array,
@@ -37,6 +38,11 @@ class GraphContainer extends React.Component {
 
   // GraphSelector selects which graph is currently in view
   handleViewChange(nextView) {
+    analytics.trackEvent({
+      category: 'Graph',
+      action: 'changeGraphView',
+      label: 'Change to: ' + nextView,
+    });
     this.setState({activeView: nextView});
   }
 

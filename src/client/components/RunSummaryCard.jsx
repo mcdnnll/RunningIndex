@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import moment from 'moment';
+import analytics from '../utils/analytics';
 
 const propTypes = {
   title: PropTypes.string,
@@ -26,6 +27,12 @@ class RunSummaryCard extends React.Component {
   }
 
   handleViewChange(nextView) {
+    const cardInstance = this.props.title;
+    analytics.trackEvent({
+      category: 'RunSummaryCard',
+      action: 'changeView',
+      label: cardInstance + ' changing to: ' + nextView,
+    });
     this.setState({activeView: nextView});
   }
 

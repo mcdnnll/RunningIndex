@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import moment from 'moment';
+import { clearSubmissionResult } from '../actions/entryActions';
 
 const propTypes = {
   handleAddEntry: PropTypes.func.isRequired,
@@ -7,6 +8,7 @@ const propTypes = {
   addEntryPosted: PropTypes.bool,
   addEntryFailed: PropTypes.bool,
   addEntryResult: PropTypes.string,
+  dispatch: PropTypes.func,
 };
 
 class AddEntry extends React.Component {
@@ -19,6 +21,14 @@ class AddEntry extends React.Component {
   // Validate and extract inputs, notify user of any errors
   // prior to posting to server
   handleSubmit() {
+
+    const { addEntryFailed, dispatch } = this.props;
+
+    // Reset previous submission error
+    if (addEntryFailed) {
+      dispatch(clearSubmissionResult());
+    }
+
     const date = this.validateDate(this.refs.dateInput.value);
     if (date.error) {
       this.setState({error: date.error});

@@ -33,3 +33,14 @@
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
+
+/* Change pixels to mid 300s*/
+@media smartphone, only screen and (max-width: 400px)  {
+  .selector__btn-group {
+    font-size: 0.9em;
+  }
+
+  .selector__btn {
+    width: 50%;
+  }
+}
